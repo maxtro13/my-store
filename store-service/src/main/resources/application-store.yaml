@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/store_db
+    username: ADMIN
+    password: adminpassword
+logging:
+  level:
+    sql: info
+server:
+  port: 8081
