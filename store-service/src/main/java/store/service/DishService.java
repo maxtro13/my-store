@@ -6,5 +6,9 @@ import store.dto.DishResponseDto;
 
 public interface DishService {
 
-    ResponseEntity<DishResponseDto> create(DishRequestDto requestDto);
+    ResponseEntity<?> create(DishRequestDto requestDto);
+
+    ResponseEntity<DishResponseDto> findDishById(Long dishId);
+
+    ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto);
 }

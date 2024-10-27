@@ -9,5 +9,6 @@ import java.util.Optional;
 @Repository
 public interface DishRepository extends CrudRepository<Dish, Long> {
 
-    boolean existsByName(String name);
+    boolean existsByNameContainingIgnoreCase(String name);
+
 }

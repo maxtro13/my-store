@@ -12,7 +12,7 @@ public class DishMapper {
         Dish dish = new Dish();
         dish.setName(requestDto.getName());
         dish.setCategory(requestDto.getCategory());
-        dish.setDescription(requestDto.getDesString());
+        dish.setDescription(requestDto.getDescription());
         dish.setPrice(requestDto.getPrice());
         dish.setAvailability(requestDto.getAvailability());
         return dish;
@@ -26,5 +26,13 @@ public class DishMapper {
                 dish.getCategory(),
                 dish.getAvailability(),
                 dish.getPrice());
+    }
+
+    public void updateEntity(Dish dish, DishRequestDto dto) {
+        dish.setName(dto.getName());
+        dish.setAvailability(dto.getAvailability());
+        dish.setCategory(dto.getCategory());
+        dish.setPrice(dto.getPrice());
+        dish.setDescription(dto.getDescription());
     }
 }

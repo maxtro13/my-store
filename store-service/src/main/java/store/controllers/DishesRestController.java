@@ -13,7 +13,7 @@ import store.service.DishService;
 @RestController
 @RequestMapping("/store-api/v1/dishes")
 @RequiredArgsConstructor
-public class DishController {
+public class DishesRestController {
 
     private final DishService dishService;
 

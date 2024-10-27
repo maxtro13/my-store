@@ -5,10 +5,11 @@ spring:
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/store_db
-    username: ADMIN
+    username: admin
     password: adminpassword
 logging:
   level:
     sql: info
+    web: trace
 server:
   port: 8081
