@@ -23,6 +23,7 @@
     </developers>
     <modules>
         <module>store-service</module>
+        <module>store-view</module>
     </modules>
     <scm>
         <connection/>
@@ -57,3 +58,4 @@
     </build>
 
 </project>
+

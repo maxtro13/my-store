@@ -1,13 +1,11 @@
 package store.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
-import store.domain.entity.Category;
+import store.entity.Category;
 
 @Getter
 @Setter

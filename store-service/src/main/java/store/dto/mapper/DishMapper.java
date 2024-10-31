@@ -1,7 +1,7 @@
 package store.dto.mapper;
 
 import org.springframework.stereotype.Component;
-import store.domain.entity.Dish;
+import store.entity.Dish;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 

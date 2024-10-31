@@ -1,12 +1,11 @@
 package store.dto;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import store.domain.entity.Category;
+import store.entity.Category;
 
 @NoArgsConstructor
 @AllArgsConstructor

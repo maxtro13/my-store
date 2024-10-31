@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
-import store.domain.entity.Dish;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 import store.dto.mapper.DishMapper;
+import store.entity.Category;
+import store.entity.Dish;
 import store.repositories.DishRepository;
 import store.service.DishService;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -39,8 +40,8 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseEntity<DishResponseDto> findDishById(Long dishId) {
-
         return ResponseEntity.ok(
                 dishMapper.toDto(
                         dishRepository.findById(dishId)
@@ -57,8 +58,29 @@ public class DishServiceImpl implements DishService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
         dishMapper.updateEntity(dish, requestDto);
-        dishRepository.save(dish);
-        return null;
+        return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
     }
+
+    @Transactional
+    @Override
+    public ResponseEntity<String> deleteDishById(Long dishId) {
+        Dish dish = dishRepository.findById(dishId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Dish not found"));
+        dishRepository.deleteById(dishId);
+        return ResponseEntity.ok(String.format("dish with id %d has been deleted", dishId));
+    }
+
+    @Override
+    public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory(Category category) {
+        dishRepository.findAllByCategory(category);
+
+        return ResponseEntity.ok(
+                dishRepository.findAllByCategory(category)
+                        .stream()
+                        .map(dishMapper::toDto)
+                        .toList());
+    }
+
 
 }
