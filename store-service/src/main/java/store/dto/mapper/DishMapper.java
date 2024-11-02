@@ -23,7 +23,7 @@ public class DishMapper {
                 dish.getId(),
                 dish.getName(),
                 dish.getDescription(),
-                dish.getCategory(),
+                dish.getCategory().name(),
                 dish.getAvailability(),
                 dish.getPrice());
     }

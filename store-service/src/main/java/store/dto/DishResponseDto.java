@@ -19,7 +19,7 @@ public class DishResponseDto {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private String category;
 
     private Boolean availability;
     private Double price;

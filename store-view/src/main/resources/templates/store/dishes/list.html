@@ -24,13 +24,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr data-th-each="dish: ${dishes}" class="dish-row">
+        <tr data-th-each="dish: ${dishes}" >
             <td class="dish-name">
-                <a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}"
-                   data-th-text="${dish.name()}"></a>
+                <div style="display: flex; justify-content: space-between;">
+                    <span><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}" data-th-text="${dish.name()}"></a></span>
+                    <span style="text-align: right;"><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}">Подробнее</a></span>
+                </div>
             </td>
         </tr>
         </tbody>
+
     </table>
 </div>
 </body>

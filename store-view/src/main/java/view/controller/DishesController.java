@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import view.client.DishRestClient;
-import view.dto.NewDishDto;
+import view.dto.DishDtoResponse;
 import view.entity.Dish;
 
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class DishesController {
     }
 
     @PostMapping("create")
-    public String createNewDish(NewDishDto dishDto, Model model) {
+    public String createNewDish(DishDtoResponse dishDto, Model model) {
         Dish dish = this.dishRestClient
                 .createDish(dishDto.name(), dishDto.description(),
                         dishDto.category(), dishDto.availability(), dishDto.price());

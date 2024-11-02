@@ -1,8 +1,11 @@
 package view.client;
 
+import view.dto.DishDtoRequest;
+import view.dto.DishDtoResponse;
 import view.entity.Dish;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DishRestClient {
 
@@ -10,6 +13,7 @@ public interface DishRestClient {
 
     List<Dish> getAllDishesByCategory(String category);
 
-    Dish findDishById(Long dishId);
+    Optional<Dish> findDishById(Long dishId);
 
+    void updateDish(Dish dishDto, Long dishId);
 }
