@@ -1,10 +1,12 @@
 package store.service.impl;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import store.dto.DishRequestDto;
@@ -16,6 +18,8 @@ import store.repositories.DishRepository;
 import store.service.DishService;
 
 import java.util.List;
+import java.util.stream.StreamSupport;
+
 
 @Service
 @RequiredArgsConstructor
@@ -72,14 +76,22 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory(Category category) {
-        dishRepository.findAllByCategory(category);
+    public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory( Category category) {
 
         return ResponseEntity.ok(
                 dishRepository.findAllByCategory(category)
                         .stream()
                         .map(dishMapper::toDto)
                         .toList());
+    }
+
+    @Override
+    public ResponseEntity<List<DishResponseDto>> findAll() {
+        return ResponseEntity.ok(
+                StreamSupport.stream(dishRepository.findAll().spliterator(), false)
+                        .map(dishMapper::toDto)
+                        .toList()
+        );
     }
 
 

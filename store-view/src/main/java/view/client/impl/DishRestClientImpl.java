@@ -5,7 +5,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 import view.client.DishRestClient;
-import view.dto.DishDtoRequest;
 import view.dto.DishDtoResponse;
 import view.entity.Dish;
 
@@ -64,6 +63,16 @@ public class DishRestClientImpl implements DishRestClient {
                 .retrieve()
                 .toBodilessEntity();
 
+
+    }
+
+    @Override
+    public List<Dish> getAllDishes() {
+        return this.restClient
+                .get()
+                .uri("/store-api/v1/dishes/all")
+                .retrieve()
+                .body(PRODUCTS_TYPE_REFERENCE);
     }
 
 

@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title >Информация о блюде</title>
+    <link rel="stylesheet" href="/css/dish.css">
 </head>
 <body>
-    <ul>>
+<div class="dish-info">
+    <h2>Информация о блюде</h2>
+    <ul>
         <li><strong>ID </strong> <span data-th-text="${dish.id()}"> </span></li>
         <li><strong>Название </strong><span data-th-text="${dish.name()}"> </span></li>
         <li><strong>Описание </strong><span data-th-text="${dish.description()}"> </span></li>
         <li><strong>Цена </strong><span data-th-text="${dish.price()}"> </span></li>
         <li><strong>Наличие </strong><span data-th-text="${dish.availability()}"> </span></li>
         <li><strong>Категория </strong><span data-th-text="${dish.category()}"> </span></li>
+        <li><a data-th-href="@{/store/dishes/category}"><strong style="color: darkorange">Назад</strong> </a></li>
     </ul>
+</div>
 </body>
 </html>

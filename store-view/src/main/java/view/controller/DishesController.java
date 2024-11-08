@@ -3,7 +3,10 @@ package view.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import view.client.DishRestClient;
 import view.dto.DishDtoResponse;
 import view.entity.Dish;
@@ -18,7 +21,7 @@ public class DishesController {
 
     @GetMapping
     public String getDishListPage() {
-        return "redirect:/store/dishes/list";
+        return "redirect:/store/dishes/category";
     }
 
     @GetMapping("category")
@@ -28,18 +31,26 @@ public class DishesController {
 //            category=null;
 //            return "redirect:/"
 //        }
+
         model.addAttribute("dishes", this.dishRestClient.getAllDishesByCategory(category));
         model.addAttribute("category", category);
 
         return "store/dishes/list";
     }
-
+//todo Сделать так чтобы один ендпоинт возвращал мог обработать разные значения получение с категорией и без нее
+    // путем задания значения all для кнопки, тогда в таблице будет возвращаться все товары
+    // либо как-то еще
     @PostMapping("create")
     public String createNewDish(DishDtoResponse dishDto, Model model) {
         Dish dish = this.dishRestClient
                 .createDish(dishDto.name(), dishDto.description(),
-                        dishDto.category(), dishDto.availability(), dishDto.price());
+                            dishDto.category(), dishDto.availability(), dishDto.price());
         return "redirect:/store/dishes/%d".formatted(dish.id());
     }
 
+    @GetMapping("/all")
+    public String getAllDishes(Model model) {
+
+        return null;
+    }
 }

@@ -16,4 +16,5 @@ public interface DishRestClient {
     Optional<Dish> findDishById(Long dishId);
 
     void updateDish(Dish dishDto, Long dishId);
+    List<Dish> getAllDishes();
 }
