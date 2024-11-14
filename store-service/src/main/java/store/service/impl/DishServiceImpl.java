@@ -1,12 +1,10 @@
 package store.service.impl;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 import store.dto.DishRequestDto;
@@ -40,7 +38,7 @@ public class DishServiceImpl implements DishService {
         return ResponseEntity.created(UriComponentsBuilder.newInstance()
                         .replacePath("/store-api/v1/dishes/{dishId}")
                         .build(responseDto.getId()))
-                .body(String.format("Id:%s", responseDto.getId()));
+                .body(responseDto);
     }
 
     @Override
@@ -67,16 +65,15 @@ public class DishServiceImpl implements DishService {
 
     @Transactional
     @Override
-    public ResponseEntity<String> deleteDishById(Long dishId) {
-        Dish dish = dishRepository.findById(dishId)
+    public void deleteDishById(Long dishId) {
+        dishRepository.findById(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
         dishRepository.deleteById(dishId);
-        return ResponseEntity.ok(String.format("dish with id %d has been deleted", dishId));
     }
 
     @Override
-    public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory( Category category) {
+    public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory(Category category) {
 
         return ResponseEntity.ok(
                 dishRepository.findAllByCategory(category)

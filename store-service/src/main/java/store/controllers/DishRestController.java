@@ -21,14 +21,15 @@ public class DishRestController {
     @PutMapping
     public ResponseEntity<DishResponseDto> updateDishById(
             @PathVariable("dishId") Long dishId,
-            @RequestBody DishRequestDto requestDto
+            @RequestBody(required = false) DishRequestDto dto
     ) {
-        return dishService.updateDishById(dishId, requestDto);
+        return dishService.updateDishById(dishId, dto);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteDishById(@PathVariable("dishId") Long dishId) {
-
-        return dishService.deleteDishById(dishId);
+    public ResponseEntity<?> deleteDishById(@PathVariable("dishId") Long dishId) {
+        dishService.deleteDishById(dishId);
+        return ResponseEntity.noContent()
+                .build();
     }
 }

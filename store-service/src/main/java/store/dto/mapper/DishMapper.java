@@ -1,9 +1,9 @@
 package store.dto.mapper;
 
 import org.springframework.stereotype.Component;
-import store.entity.Dish;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
+import store.entity.Dish;
 
 @Component
 public class DishMapper {
@@ -28,11 +28,11 @@ public class DishMapper {
                 dish.getPrice());
     }
 
-    public void updateEntity(Dish dish, DishRequestDto dto) {
-        dish.setName(dto.getName());
-        dish.setAvailability(dto.getAvailability());
-        dish.setCategory(dto.getCategory());
-        dish.setPrice(dto.getPrice());
-        dish.setDescription(dto.getDescription());
+    public void updateEntity(Dish dish, DishRequestDto requestDto) {
+        dish.setName(requestDto.getName());
+        dish.setAvailability(requestDto.getAvailability());
+        dish.setCategory(requestDto.getCategory());
+        dish.setPrice(requestDto.getPrice());
+        dish.setDescription(requestDto.getDescription());
     }
 }

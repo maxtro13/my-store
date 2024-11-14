@@ -25,32 +25,36 @@ public class DishesController {
     }
 
     @GetMapping("category")
-    public String getDishListByCategory(Model model, @RequestParam(name = "category", required = false) String category,
-                                        @RequestParam(required = false, name = "reset") String reset) {
-//        if(reset !=null && reset.equals("true")){
-//            category=null;
-//            return "redirect:/"
-//        }
+    public String getDishListByCategory(Model model, @RequestParam(name = "category", required = false) String category) {
+        if (category != null) {
+            if (category.equals("all")) {
+                model.addAttribute("dishes", this.dishRestClient.getAllDishes());
+                return "store/dishes/list";
 
-        model.addAttribute("dishes", this.dishRestClient.getAllDishesByCategory(category));
-        model.addAttribute("category", category);
+            } else {
+                model.addAttribute("dishes", this.dishRestClient.getAllDishesByCategory(category));
+                model.addAttribute("category", category);
+                return "store/dishes/list";
 
-        return "store/dishes/list";
+            }
+        } else {
+            return "store/dishes/list";
+        }
     }
-//todo Сделать так чтобы один ендпоинт возвращал мог обработать разные значения получение с категорией и без нее
-    // путем задания значения all для кнопки, тогда в таблице будет возвращаться все товары
-    // либо как-то еще
+
+
     @PostMapping("create")
     public String createNewDish(DishDtoResponse dishDto, Model model) {
         Dish dish = this.dishRestClient
                 .createDish(dishDto.name(), dishDto.description(),
-                            dishDto.category(), dishDto.availability(), dishDto.price());
+                        dishDto.category(), dishDto.availability(), dishDto.price());
         return "redirect:/store/dishes/%d".formatted(dish.id());
     }
 
-    @GetMapping("/all")
-    public String getAllDishes(Model model) {
-
-        return null;
+    @GetMapping("create")
+    public String createNewDish(Model model) {
+        Dish dish = new Dish(null, "", "", "", true, null);
+        model.addAttribute(dish);
+        return "store/dishes/create_dish";
     }
 }

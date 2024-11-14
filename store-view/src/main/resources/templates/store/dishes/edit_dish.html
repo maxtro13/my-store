@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение</title>
+    <link rel="stylesheet" href="/css/edit_dish.css">
+</head>
+<body>
+<div class="dish-info">
+    <h2> Изменение блюда</h2>
+    <form method="post" data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
+        <ul>
+            <li>
+                <strong>ID </strong>
+                <span data-th-text="${dish.id}"></span>
+            </li>
+            <li>
+                <label>
+                    <strong>Название:</strong>
+                    <input type="text" name="name" data-th-value="${dish.name()}" required>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <strong>Описание </strong>
+                    <textarea class="textarea" name="description" data-th-text="${dish.description()}"
+                              data-th-value="${dish.description()}"></textarea>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <strong>Цена </strong>
+                    <input type="number" name="price" data-th-value="${dish.price()}">
+                </label>
+            </li>
+            <li>
+                <label>
+                    <strong>Наличие </strong>
+                    <input type="checkbox" name="availability" data-th-field="${dish.availability}">
+                </label>
+            </li>
+            <li>
+                <label>
+                    <strong>Категория </strong>
+                    <select name="category" required>
+                        <option data-th-text="${dish.category()}" data-th-value="${dish.category()}"></option>
+                        <option value="ROLLS">Роллы</option>
+                        <option value="SOUPS">Супы</option>
+                    </select>
+                </label>
+            </li>
+        </ul>
+        <button class="edit-button" type="submit"><strong>Изменить</strong></button>
+    </form>
+</div>
+</body>
+</html>

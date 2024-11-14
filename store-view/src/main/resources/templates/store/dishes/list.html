@@ -2,27 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Блюда по категориям</title>
     <link rel="stylesheet" href="/css/list.css">
 </head>
 <body>
 <div class="container">
     <h1 class="title">Блюда по категории</h1>
+    <div class="form-container">
+        <form class="category-form" method="get" data-th-action="@{/store/dishes/category}">
+            <label for="categorySelect" class="category-label">Категория:</label>
+            <select id="categorySelect" name="category" class="category-select" data-th-value="${category}">
+                <option value="">--Категория--</option>
+                <option value="ROLLS">Роллы</option>
+                <option value="SOUPS">Супы</option>
+            </select>
+            <button type="submit" class="category-button">Выбрать</button>
+        </form>
 
-    <form class="category-form" method="get" data-th-action="@{/store/dishes/category}">
-        <label for="categorySelect" class="category-label">Категория:</label>
-        <select id="categorySelect" name="category" class="category-select" data-th-value="${category}">
-            <option>--Категория--</option>
-            <option value="ROLLS">Роллы</option>
-            <option value="SOUPS">Супы</option>
-        </select>
-        <button type="submit" class="category-button">Выбрать</button>
-    </form>
+        <form class="category-form" method="get" data-th-action="@{/store/dishes/category}">
+            <input type="hidden" name="category" value="all">
+            <button type="submit" class="category-button">Все блюда</button>
+        </form>
 
-    <form class="category-form" method="get" data-th-action="@{/store/dishes/all}">
-        <button type="submit" class="category-button">Все блюда</button>
-    </form>
-
+        <form class="category-form" method="get" action="/store/dishes/create">
+            <button type="submit" class="category-button">Добавить блюдо</button>
+        </form>
+    </div>
     <table class="dishes-table">
         <thead>
         <tr>
@@ -33,9 +38,11 @@
         <tr data-th-each="dish: ${dishes}">
             <td class="dish-name">
                 <div style="display: flex; justify-content: space-between;">
-                    <span><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}"
-                             data-th-text="${dish.name()}"></a></span>
-                    <span style="text-align: right;"><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}">Подробнее</a></span>
+                    <strong><span><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}"
+                                     data-th-text="${dish.name()}"></a></span></strong>
+                    <span style="text-align: right;">
+                        <strong><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id()})}">Подробнее</a></strong>
+                        </span>
                 </div>
             </td>
         </tr>

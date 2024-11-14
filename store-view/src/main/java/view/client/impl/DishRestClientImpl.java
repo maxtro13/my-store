@@ -5,7 +5,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
 import view.client.DishRestClient;
-import view.dto.DishDtoResponse;
+import view.dto.DishDtoRequest;
 import view.entity.Dish;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class DishRestClientImpl implements DishRestClient {
                 .post()
                 .uri("/store-api/v1/dishes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new DishDtoResponse(name, description, category, availability, price))
+                .body(new DishDtoRequest(name, description, category, availability, price))
                 .retrieve()
                 .body(Dish.class);
     }
@@ -53,17 +53,17 @@ public class DishRestClientImpl implements DishRestClient {
     }
 
     @Override
-    public void updateDish(Dish dish, Long dishId) {
+    public void updateDish(Long dishId,
+                           String name, String description,
+                           String category, Boolean availability, Double price) {
         this.restClient
                 .put()
-                .uri("/store-api/v1/dishes/{dishId}", dish)
+                .uri("/store-api/v1/dishes/{dishId}", dishId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(new DishDtoResponse(dish.name(), dish.description(),
-                        dish.category(), dish.availability(), dish.price()))
+                .body(new DishDtoRequest(name, description, category, availability, price))
                 .retrieve()
                 .toBodilessEntity();
-
-
+        //Продолжить, ты изменил обновление на ресте нужно понять как сделать тут все грамотно
     }
 
     @Override
@@ -73,6 +73,15 @@ public class DishRestClientImpl implements DishRestClient {
                 .uri("/store-api/v1/dishes/all")
                 .retrieve()
                 .body(PRODUCTS_TYPE_REFERENCE);
+    }
+
+    @Override
+    public void deleteDish(Long dishId) {
+        this.restClient
+                .delete()
+                .uri("/store-api/v1/dishes/{dishId}", dishId)
+                .retrieve()
+                .toBodilessEntity();
     }
 
 

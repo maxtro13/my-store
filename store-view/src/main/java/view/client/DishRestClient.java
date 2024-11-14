@@ -1,13 +1,11 @@
 package view.client;
 
-import view.dto.DishDtoRequest;
-import view.dto.DishDtoResponse;
 import view.entity.Dish;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface DishRestClient {
+public interface DishRestClient  {
 
     Dish createDish(String name, String description, String category, Boolean availability, Double price);
 
@@ -15,6 +13,7 @@ public interface DishRestClient {
 
     Optional<Dish> findDishById(Long dishId);
 
-    void updateDish(Dish dishDto, Long dishId);
+    void updateDish(Long dishId, String name, String description, String category, Boolean availability, Double price);
     List<Dish> getAllDishes();
+    void deleteDish(Long dishId);
 }
