@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 import store.entity.Category;
@@ -19,7 +20,8 @@ public class DishesRestController {
     private final DishService dishService;
 
     @PostMapping
-    public ResponseEntity<?> createDish(@RequestBody @Valid DishRequestDto requestDto) {
+    public ResponseEntity<?> createDish(@RequestPart(name = "requestDto") @Valid DishRequestDto requestDto,
+                                        @RequestPart (name = "image")MultipartFile image) {
         return dishService.create(requestDto);
     }
 

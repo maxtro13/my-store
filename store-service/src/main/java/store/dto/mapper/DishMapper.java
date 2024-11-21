@@ -25,7 +25,8 @@ public class DishMapper {
                 dish.getDescription(),
                 dish.getCategory().name(),
                 dish.getAvailability(),
-                dish.getPrice());
+                dish.getPrice(),
+                dish.getImage().getId());
     }
 
     public void updateEntity(Dish dish, DishRequestDto requestDto) {

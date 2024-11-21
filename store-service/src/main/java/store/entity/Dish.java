@@ -29,4 +29,8 @@ public class Dish {
 
     private Double price;
 
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "image_id")
+    private Image image;
 }

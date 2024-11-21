@@ -1,12 +1,17 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/store_db
     username: ADMIN
     password: adminpassword
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 5MB
+      location: D:\images
 logging:
   level:
     sql: info
