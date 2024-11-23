@@ -12,8 +12,10 @@ import store.dto.DishResponseDto;
 import store.dto.mapper.DishMapper;
 import store.entity.Category;
 import store.entity.Dish;
+import store.entity.Image;
 import store.repositories.DishRepository;
 import store.service.DishService;
+import store.service.ImageService;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -25,6 +27,7 @@ public class DishServiceImpl implements DishService {
 
     private final DishRepository dishRepository;
     private final DishMapper dishMapper;
+    private final ImageService imageService;
 
 
     @Transactional
@@ -33,9 +36,17 @@ public class DishServiceImpl implements DishService {
         if (dishRepository.existsByNameContainingIgnoreCase(requestDto.getName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Позиция с таким названием уже существует");
         }
-        DishResponseDto responseDto = dishMapper.toDto(
-                dishRepository.save(dishMapper.toEntity(requestDto)));
-
+        DishResponseDto responseDto;
+        Dish dish = dishMapper.toEntity(requestDto);
+        if (requestDto.getImage() == null || requestDto.getImage().isEmpty()) {
+            responseDto = dishMapper.toDto(
+                    dishRepository.save(dish));
+        } else {
+            Image image = imageService.saveImage(requestDto.getImage());
+            dish.setImage(image);
+            responseDto = dishMapper.toDto(
+                    dishRepository.save(dish));
+        }
         return ResponseEntity.created(UriComponentsBuilder.newInstance()
                         .replacePath("/store-api/v1/dishes/{dishId}")
                         .build(responseDto.getId()))

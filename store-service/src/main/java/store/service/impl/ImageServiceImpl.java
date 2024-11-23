@@ -3,7 +3,6 @@ package store.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,7 +25,7 @@ public class ImageServiceImpl implements ImageService {
     private String fileDirectory;
 
     @Override
-    public ResponseEntity<?> saveImage(MultipartFile file) {
+    public Image saveImage(MultipartFile file) {
         if (file.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot save empty file");
         }
@@ -39,13 +38,13 @@ public class ImageServiceImpl implements ImageService {
             image.setOriginalFileName(file.getOriginalFilename());
             image.setFileName(fileName);
             image.setSize(file.getSize());
-            image.
+            image.setContentType(file.getContentType());
             image.setFilePath(filePath);
             imageRepository.save(image);
         } catch (IOException e) {
-            return ResponseEntity.badRequest().body(e);
+            throw new RuntimeException(e);
         }
-        return ResponseEntity.ok("file successfully save to db " + image.getFileName());
+        return image;
     }
 
     private String generateUniqueFileName(String originalFilename) {

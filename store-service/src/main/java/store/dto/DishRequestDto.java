@@ -1,11 +1,15 @@
 package store.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 import store.entity.Category;
+
+import java.util.Optional;
 
 @Getter
 @Setter
@@ -32,4 +36,6 @@ public class DishRequestDto {
     @NotNull
     private Double price;
 
+    @Nullable
+    private MultipartFile image;
 }
