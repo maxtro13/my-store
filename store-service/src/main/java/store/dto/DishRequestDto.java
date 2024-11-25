@@ -17,23 +17,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class DishRequestDto {
 
-    @NotBlank(message = "")
-    @Size(min = 3, max = 150)
+    @NotBlank(message = "${dish.error.validation.field.null}")
+    @Size(min = 3, max = 55, message = "dish.error.validation.max_min")
     private String name;
 
-    @Size(min = 10, max = 660)
-    @NotBlank
+    @Size(min = 10, max = 1024,message = "dish.error.validation.max_min")
+    @NotBlank(message = "${dish.error.validation.field.null}")
     private String description;
 
-    @NotNull
+    @NotNull(message = "${dish.error.validation.field.null}")
     private Category category;
 
-    @NotNull
+    @NotNull(message = "${dish.error.validation.field.null}")
     private Boolean availability;
 
     @Digits(integer = 5, fraction = 2)
     @Positive
-    @NotNull
     private Double price;
 
     private MultipartFile image;
