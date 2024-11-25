@@ -36,6 +36,5 @@ public class DishRequestDto {
     @NotNull
     private Double price;
 
-    @Nullable
     private MultipartFile image;
 }

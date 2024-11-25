@@ -1,7 +1,6 @@
 package store.dto.mapper;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.RequestContextFilter;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 import store.entity.Dish;
@@ -9,11 +8,6 @@ import store.entity.Dish;
 @Component
 public class DishMapper {
 
-    private final RequestContextFilter requestContextFilter;
-
-    public DishMapper(RequestContextFilter requestContextFilter) {
-        this.requestContextFilter = requestContextFilter;
-    }
 
     public Dish toEntity(DishRequestDto requestDto) {
         Dish dish = new Dish();
