@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import store.entity.Image;
@@ -25,6 +26,7 @@ public class ImageServiceImpl implements ImageService {
     private String fileDirectory;
 
     @Override
+    @Transactional
     public Image saveImage(MultipartFile file) {
         if (file.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot save empty file");
