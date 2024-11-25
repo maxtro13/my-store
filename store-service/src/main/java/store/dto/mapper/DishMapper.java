@@ -11,9 +11,9 @@ public class DishMapper {
 
     public Dish toEntity(DishRequestDto requestDto) {
         Dish dish = new Dish();
-        dish.setName(requestDto.getName());
+        dish.setName(requestDto.getName().trim());
         dish.setCategory(requestDto.getCategory());
-        dish.setDescription(requestDto.getDescription());
+        dish.setDescription(requestDto.getDescription().trim());
         dish.setPrice(requestDto.getPrice());
         dish.setAvailability(requestDto.getAvailability());
 

@@ -33,7 +33,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     @Override
     public ResponseEntity<?> create(DishRequestDto requestDto) {
-        if (dishRepository.existsByNameContainingIgnoreCase(requestDto.getName())) {
+        if (dishRepository.existsByNameContainingIgnoreCase(requestDto.getName().trim())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Позиция с таким названием уже существует");
         }
         DishResponseDto responseDto;
@@ -71,8 +71,14 @@ public class DishServiceImpl implements DishService {
         Dish dish = dishRepository.findById(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
-        dishMapper.updateEntity(dish, requestDto);
-        return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
+        if (requestDto.getImage() == null || requestDto.getImage().isEmpty()) {
+            dishMapper.updateEntity(dish, requestDto);
+            return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
+        } else {
+            Image image = imageService.saveImage(requestDto.getImage());
+            dish.setImage(image);
+            return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
+        }
     }
 
     @Transactional
