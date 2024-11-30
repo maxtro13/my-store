@@ -3,10 +3,16 @@ package view.client.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.multipart.MultipartFile;
 import view.client.DishRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
+import view.utils.exceptions.BadRequestException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +28,27 @@ public class DishRestClientImpl implements DishRestClient {
 
 
     @Override
-    public Dish createDish(String name, String description,
-                           String category, Boolean availability, Double price) {
-        return this.restClient
-                .post()
-                .uri("/store-api/v1/dishes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new DishDtoRequest(name, description, category, availability, price))
-                .retrieve()
-                .body(Dish.class);
+    public Dish createDish(DishDtoRequest requestDto, MultipartFile image) {
+        try {
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("name", requestDto.name());
+            body.add("description", requestDto.description());
+            body.add("category", requestDto.category()); // .name() если enum
+            body.add("availability", requestDto.availability().toString());
+            body.add("price", requestDto.price().toString());
+            body.add("image", image.getResource());
+            return this.restClient
+                    .post()
+                    .uri("/store-api/v1/dishes")
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+                    .body(body)
+                    .retrieve()
+                    .body(Dish.class);
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+
+        }
     }
 
     @Override

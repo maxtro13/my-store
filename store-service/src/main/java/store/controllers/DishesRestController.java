@@ -21,6 +21,7 @@ public class DishesRestController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> createDish(@ModelAttribute @Valid DishRequestDto requestDto) {
+
         return dishService.create(requestDto);
     }
 

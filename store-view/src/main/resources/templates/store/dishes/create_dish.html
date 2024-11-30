@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <title>Добавление блюда</title>
     <link rel="stylesheet" href="/css/create_dish.css">
+
 </head>
 <body>
-<form method="post" data-th-action="@{/store/dishes/create}">
+
+<form method="post" id="createForm" enctype="multipart/form-data" data-th-action="@{/store/dishes/create}">
+    <div data-th-if="${errors}">
+        <h2>Допущены ошибки</h2>
+        <ul>
+            <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+        </ul>
+    </div>
     <label>
         Название:
-        <input type="text" name="name">
+        <input type="text" id="name" name="name">
     </label>
     <label>
         Описание:
@@ -24,11 +32,15 @@
     </label>
     <label>
         Наличие:
-        <input type="checkbox" name="availability" value="true">
+        <input type="checkbox" name="availability" value="true" checked>
     </label>
     <label>
         Цена:
-        <input type="number" name="price">
+        <input type="number" id="price" name="price">
+    </label>
+    <label>
+        Фото:
+        <input type="file" name="image">
     </label>
     <button type="submit">Добавить блюдо</button>
 </form>
