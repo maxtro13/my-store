@@ -17,15 +17,16 @@
     </div>
     <label>
         Название:
-        <input type="text" id="name" name="name">
+        <input type="text"  name="name" required>
+
     </label>
     <label>
         Описание:
-        <textarea name="description"></textarea>
+        <textarea name="description" required></textarea>
     </label>
     <label>
         Категория блюда:
-        <select name="category">
+        <select name="category" required>
             <option value="ROLLS">Роллы</option>
             <option value="SOUPS">Супы</option>
         </select>
@@ -36,7 +37,7 @@
     </label>
     <label>
         Цена:
-        <input type="number" id="price" name="price">
+        <input type="number" id="price" name="price" required>
     </label>
     <label>
         Фото:

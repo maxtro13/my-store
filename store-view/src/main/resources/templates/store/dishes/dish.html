@@ -8,7 +8,6 @@
 <body>
 <div class="dish-info">
     <h2>Информация о блюде</h2>
-
     <ul>
         <li><strong>ID </strong> <span data-th-text="${dish.id()}"> </span></li>
         <li><strong>Название </strong><span data-th-text="${dish.name()}"> </span></li>
@@ -16,6 +15,7 @@
         <li><strong>Цена </strong><span data-th-text="${dish.price()}"> </span></li>
         <li><strong>Наличие </strong><span data-th-text="${dish.availability()}"> </span></li>
         <li><strong>Категория </strong><span data-th-text="${dish.category()}"> </span></li>
+        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId()}"></span></li>
         <li><a href="#" onclick="goBack()"><strong style="color: darkorange">Назад</strong> </a></li>
     </ul>
     <div class="div-form">

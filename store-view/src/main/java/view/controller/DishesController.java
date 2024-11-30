@@ -57,7 +57,7 @@ public class DishesController {
 
     @GetMapping(value = "create")
     public String createNewDish(Model model) {
-        Dish dish = new Dish(null, "", "", "", true, null);
+        Dish dish = new Dish(null, "", "", "", true, null, null);
         model.addAttribute(dish);
         return "store/dishes/create_dish";
     }

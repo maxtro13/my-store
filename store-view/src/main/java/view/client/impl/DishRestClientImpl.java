@@ -35,7 +35,7 @@ public class DishRestClientImpl implements DishRestClient {
             body.add("description", requestDto.description());
             body.add("category", requestDto.category()); // .name() если enum
             body.add("availability", requestDto.availability().toString());
-            body.add("price", requestDto.price().toString());
+            body.add("price", requestDto.price() == null ? null : String.valueOf(requestDto.price()));
             body.add("image", image.getResource());
             return this.restClient
                     .post()

@@ -20,8 +20,8 @@ public class DishRequestDto {
     private String name;
 
 
-    @Size(min = 10, max = 1024, message = "{dish.error.validation.description.null}")
-    @NotBlank(message = "{dish.error.validation.description.max_min}")
+    @Size(min = 10, max = 1024, message = "{dish.error.validation.description.max_min}")
+    @NotBlank(message = "{dish.error.validation.description.null}")
     @NotNull
     private String description;
 
@@ -34,7 +34,6 @@ public class DishRequestDto {
     @Digits(integer = 5, fraction = 2)
     @Positive
     @NotNull(message = "{dish.error.validation.price.null}")
-    @NotEmpty(message = "{dish.error.validation.price.null}")
     private Double price;
 
     private MultipartFile image;
