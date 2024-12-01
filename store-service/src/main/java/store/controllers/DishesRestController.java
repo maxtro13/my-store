@@ -2,10 +2,9 @@ package store.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 import store.entity.Category;
@@ -20,8 +19,8 @@ public class DishesRestController {
 
     private final DishService dishService;
 
-    @PostMapping
-    public ResponseEntity<?> addDish(@RequestBody @Valid DishRequestDto requestDto) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createDish(@ModelAttribute @Valid DishRequestDto requestDto) {
         return dishService.create(requestDto);
     }
 

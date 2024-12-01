@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #111111;
+    background-color: lightgray;
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,8 +10,9 @@ body {
 }
 
 .dish-info {
-    background-color: #404040;
+    background-color: whitesmoke;
     border-radius: 10px;
+    justify-content: left;
     padding: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 20%;
@@ -21,6 +22,7 @@ body {
 .dish-info h2 {
     margin-bottom: 20px;
     color: darkorange;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .dish-info ul {
@@ -36,15 +38,9 @@ body {
 
 .dish-info strong {
     width: 120px;
-    color: lightgray;
+    color: black;
     font-weight: bold;
     margin-right: 10px;
-}
-
-.dish-info span {
-    display: inline-block;
-    width: calc(100% - 140px);
-    color: lightgray;
 }
 
 .edit-button {
@@ -58,15 +54,20 @@ body {
 }
 
 .edit-button:hover {
-    background-color: whitesmoke;
+    background-color: #FFABAB;
 }
 
-.div-form {
+label {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-
-a {
-    text-decoration: none;
+input[type="text"],
+input[type="number"],
+textarea, select {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
 }

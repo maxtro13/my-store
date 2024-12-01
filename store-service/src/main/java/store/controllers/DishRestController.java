@@ -1,6 +1,8 @@
 package store.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import store.dto.DishRequestDto;
@@ -18,17 +20,18 @@ public class DishRestController {
         return dishService.findDishById(dishId);
     }
 
-    @PutMapping
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<DishResponseDto> updateDishById(
             @PathVariable("dishId") Long dishId,
-            @RequestBody DishRequestDto requestDto
+            @ModelAttribute @Valid DishRequestDto dto
     ) {
-        return dishService.updateDishById(dishId, requestDto);
+        return dishService.updateDishById(dishId, dto);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteDishById(@PathVariable("dishId") Long dishId) {
-
-        return dishService.deleteDishById(dishId);
+    public ResponseEntity<?> deleteDishById(@PathVariable("dishId") Long dishId) {
+        dishService.deleteDishById(dishId);
+        return ResponseEntity.noContent()
+                .build();
     }
 }

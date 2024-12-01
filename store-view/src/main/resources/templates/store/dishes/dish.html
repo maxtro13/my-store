@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title >Информация о блюде</title>
+    <title>Информация о блюде</title>
     <link rel="stylesheet" href="/css/dish.css">
 </head>
 <body>
@@ -15,8 +15,24 @@
         <li><strong>Цена </strong><span data-th-text="${dish.price()}"> </span></li>
         <li><strong>Наличие </strong><span data-th-text="${dish.availability()}"> </span></li>
         <li><strong>Категория </strong><span data-th-text="${dish.category()}"> </span></li>
-        <li><a data-th-href="@{/store/dishes/category}"><strong style="color: darkorange">Назад</strong> </a></li>
+        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId()}"></span></li>
+        <li><a href="#" onclick="goBack()"><strong style="color: darkorange">Назад</strong> </a></li>
     </ul>
+    <div class="div-form">
+        <form data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
+            <button class="edit-button" type="submit">Изменить блюдо</button>
+        </form>
+        <form method="post" data-th-action="@{/store/dishes/{dishId}/delete(dishId=${dish.id()})}">
+            <button class="edit-button" type="submit" onclick="showModal()">Удалить блюдо</button>
+        </form>
+        <form action="/store/dishes/category">
+            <button class="edit-button" type="submit">К списку блюд</button>
+        </form>
+    </div>
 </div>
+
+<script src="/js/back.js"></script>
+
+
 </body>
 </html>

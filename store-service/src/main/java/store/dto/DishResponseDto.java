@@ -23,4 +23,6 @@ public class DishResponseDto {
 
     private Boolean availability;
     private Double price;
+
+    private Long imageId;
 }
