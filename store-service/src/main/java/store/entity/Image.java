@@ -37,8 +37,7 @@ public class Image {
     @Column(name = "content_type")
     private String contentType;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "image")
-    private Dish dishId;
+
 }
 
 

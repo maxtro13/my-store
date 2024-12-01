@@ -3,6 +3,7 @@ package store.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +49,18 @@ public class ImageServiceImpl implements ImageService {
         }
         return image;
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity<Image> getImageById(Long imageId) {
+
+        return ResponseEntity.ok(
+                imageRepository.findById(imageId)
+                        .orElseThrow(
+                                () -> new ResponseStatusException(
+                                        HttpStatus.NOT_FOUND, "Image not found")));
+    }
+
 
     private String generateUniqueFileName(String originalFilename) {
         return UUID.randomUUID().toString() + "." + originalFilename;

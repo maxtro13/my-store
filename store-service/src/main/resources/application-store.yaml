@@ -5,7 +5,7 @@ spring:
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5432/store_db
-    username: ADMIN
+    username: admin
     password: adminpassword
   servlet:
     multipart:

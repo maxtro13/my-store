@@ -7,4 +7,6 @@ import store.entity.Image;
 public interface ImageService {
 
     Image saveImage(MultipartFile file);
+
+    ResponseEntity<Image> getImageById(Long imageId);
 }

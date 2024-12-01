@@ -44,7 +44,7 @@ public class DishesController {
 
     @PostMapping(value = "create")
     public String createNewDish(@ModelAttribute DishDtoRequest requestDto,
-                                @RequestParam(required = false) MultipartFile image, Model model) {
+                                @RequestParam(name = "image", required = false) MultipartFile image, Model model) {
         try {
             Dish dish = this.dishRestClient
                     .createDish(requestDto, image);
