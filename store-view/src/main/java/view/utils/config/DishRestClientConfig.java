@@ -3,15 +3,15 @@ package view.utils.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
-import view.client.DishRestClient;
-import view.client.impl.DishRestClientImpl;
+import view.client.StoreRestClient;
+import view.client.impl.StoreRestClientImpl;
 
 @Configuration
 public class DishRestClientConfig {
 
     @Bean
-    public DishRestClient dishRestClient() {
-        return new DishRestClientImpl(
+    public StoreRestClient dishRestClient() {
+        return new StoreRestClientImpl(
                 RestClient.builder()
                         .baseUrl("http://localhost:8081")
                         .build());

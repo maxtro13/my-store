@@ -2,9 +2,10 @@ package view.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import view.client.DishRestClient;
+import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
 
@@ -15,13 +16,18 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class DishController {
 
-    private final DishRestClient dishRestClient;
+    private final StoreRestClient storeRestClient;
 
     @ModelAttribute("dish")
-    public Dish dish(@PathVariable("dishId") Long dishId) {
-        return this.dishRestClient.findDishById(dishId)
+    public Dish dish(@PathVariable("dishId") Long dishId, Model model) {
+        Dish dish = this.storeRestClient.findDishById(dishId)
                 .orElseThrow(() -> new NoSuchElementException("Not found"));
+        if (dish.imageId() != 0) {
+            model.addAttribute("image", this.storeRestClient.getImageById(dish.imageId()));
+        }
+        return dish;
     }
+
 
     @GetMapping
     public String getDish() {
@@ -37,13 +43,13 @@ public class DishController {
     @PostMapping("/edit")
     public String updateDish(@PathVariable Long dishId, @ModelAttribute DishDtoRequest dtoRequest,
                              @RequestParam(name = "image", required = false) MultipartFile image) {
-        this.dishRestClient.updateDish(dishId, dtoRequest, image);
+        this.storeRestClient.updateDish(dishId, dtoRequest, image);
         return "redirect:/store/dishes/%d".formatted(dishId);
     }
 
     @PostMapping("/delete")
     public String deleteDish(Dish dish) {
-        this.dishRestClient.deleteDish(dish.id());
+        this.storeRestClient.deleteDish(dish.id());
         return "redirect:/store/dishes/category";
     }
 }

@@ -8,7 +8,7 @@ import store.entity.Image;
 import store.service.ImageService;
 
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/store-api/v1/images")
 @RequiredArgsConstructor
 public class ImageController {
 

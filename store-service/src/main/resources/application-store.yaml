@@ -11,7 +11,7 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-      location: D:\images
+      location: D:\IdeadProjects\OCTOBER\my-store\store-service\src\main\resources\images
 logging:
   level:
     sql: trace
