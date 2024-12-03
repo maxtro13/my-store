@@ -8,7 +8,7 @@
 <body>
 <div class="dish-info">
     <h2> Изменение блюда</h2>
-    <form method="post" data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
+    <form method="post" enctype="multipart/form-data" data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
         <ul>
             <li>
                 <strong>ID </strong>
@@ -29,8 +29,12 @@
             </li>
             <li>
                 <label>
-                    <strong>Цена </strong>
-                    <input type="number" name="price" data-th-value="${dish.price()}">
+                    <strong>Категория </strong>
+                    <select name="category" required>
+                        <option data-th-text="${dish.category()}" data-th-value="${dish.category()}"></option>
+                        <option value="ROLLS">Роллы</option>
+                        <option value="SOUPS">Супы</option>
+                    </select>
                 </label>
             </li>
             <li>
@@ -41,12 +45,14 @@
             </li>
             <li>
                 <label>
-                    <strong>Категория </strong>
-                    <select name="category" required>
-                        <option data-th-text="${dish.category()}" data-th-value="${dish.category()}"></option>
-                        <option value="ROLLS">Роллы</option>
-                        <option value="SOUPS">Супы</option>
-                    </select>
+                    <strong>Цена </strong>
+                    <input type="number" name="price" data-th-value="${dish.price()}">
+                </label>
+            </li>
+            <li>
+                <label>
+                    <strong>Фото </strong>
+                    <input type="file" name="image">
                 </label>
             </li>
         </ul>

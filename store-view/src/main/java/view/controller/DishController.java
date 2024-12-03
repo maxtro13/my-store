@@ -3,6 +3,7 @@ package view.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import view.client.DishRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
@@ -34,12 +35,10 @@ public class DishController {
 
 
     @PostMapping("/edit")
-    public String updateDish(@ModelAttribute(value = "dish", binding = false) Dish dish,
-                             DishDtoRequest dtoRequest) {
-        this.dishRestClient.updateDish(dish.id(), dtoRequest.name(),
-                dtoRequest.description(), dtoRequest.category(),
-                dtoRequest.availability(), dtoRequest.price());
-        return "redirect:/store/dishes/%d".formatted(dish.id());
+    public String updateDish(@PathVariable Long dishId, @ModelAttribute DishDtoRequest dtoRequest,
+                             @RequestParam(name = "image", required = false) MultipartFile image) {
+        this.dishRestClient.updateDish(dishId, dtoRequest, image);
+        return "redirect:/store/dishes/%d".formatted(dishId);
     }
 
     @PostMapping("/delete")

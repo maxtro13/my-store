@@ -76,6 +76,7 @@ public class DishServiceImpl implements DishService {
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         } else {
             Image image = imageService.saveImage(requestDto.getImage());
+            dishMapper.updateEntity(dish, requestDto);
             dish.setImage(image);
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         }

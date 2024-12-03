@@ -30,18 +30,11 @@ public class DishRestClientImpl implements DishRestClient {
     @Override
     public Dish createDish(DishDtoRequest requestDto, MultipartFile image) {
         try {
-            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("name", requestDto.name());
-            body.add("description", requestDto.description());
-            body.add("category", requestDto.category()); // .name() если enum
-            body.add("availability", requestDto.availability().toString());
-            body.add("price", requestDto.price() == null ? null : String.valueOf(requestDto.price()));
-            body.add("image", image.getResource());
             return this.restClient
                     .post()
                     .uri("/store-api/v1/dishes")
                     .contentType(MediaType.MULTIPART_FORM_DATA)
-                    .body(body)
+                    .body(bodyForMethod(requestDto, image))
                     .retrieve()
                     .body(Dish.class);
         } catch (HttpClientErrorException.BadRequest exception) {
@@ -71,17 +64,21 @@ public class DishRestClientImpl implements DishRestClient {
     }
 
     @Override
-    public void updateDish(Long dishId,
-                           String name, String description,
-                           String category, Boolean availability, Double price) {
-        this.restClient
-                .put()
-                .uri("/store-api/v1/dishes/{dishId}", dishId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(new DishDtoRequest(name, description, category, availability, price))
-                .retrieve()
-                .toBodilessEntity();
-        //Продолжить, ты изменил обновление на ресте нужно понять как сделать тут все грамотно
+    public Dish updateDish(Long dishId,
+                           DishDtoRequest requestDto, MultipartFile image) {
+        try {
+
+          return this.restClient
+                    .put()
+                    .uri("/store-api/v1/dishes/{dishId}", dishId)
+                    .contentType(MediaType.MULTIPART_FORM_DATA)
+                    .body(bodyForMethod(requestDto,image))
+                    .retrieve()
+                    .body(Dish.class);
+        } catch (HttpClientErrorException.BadRequest exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
+        }
     }
 
     @Override
@@ -100,6 +97,17 @@ public class DishRestClientImpl implements DishRestClient {
                 .uri("/store-api/v1/dishes/{dishId}", dishId)
                 .retrieve()
                 .toBodilessEntity();
+    }
+
+    private MultiValueMap<String, Object> bodyForMethod(DishDtoRequest requestDto, MultipartFile image) {
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("name", requestDto.name());
+        body.add("description", requestDto.description());
+        body.add("category", requestDto.category()); // .name() если enum
+        body.add("availability", requestDto.availability().toString());
+        body.add("price", requestDto.price() == null ? null : String.valueOf(requestDto.price()));
+        body.add("image", image.getResource());
+        return body;
     }
 
 

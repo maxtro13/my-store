@@ -19,27 +19,10 @@
             <button type="submit" class="category-button">Выбрать</button>
         </form>
 
-<<<<<<< HEAD
-    <form class="category-form" method="get" data-th-action="@{/store/dishes/category}">
-        <label for="categorySelect" class="category-label">Категория:</label>
-        <select id="categorySelect" name="category" class="category-select" data-th-value="${category}">
-            <option>--Категория--</option>
-            <option value="ROLLS">Роллы</option>
-            <option value="SOUPS">Супы</option>
-        </select>
-        <button type="submit" class="category-button">Выбрать</button>
-    </form>
-
-    <form class="category-form" method="get" data-th-action="@{/store/dishes/category}" >
-        <input type="hidden" name="category" value="all"/>
-        <button type="submit" data-th-value="${category}"  class="category-button">Все блюда</button>
-    </form>
-=======
         <form class="category-form" method="get" data-th-action="@{/store/dishes/category}">
             <input type="hidden" name="category" value="all">
             <button type="submit" class="category-button">Все блюда</button>
         </form>
->>>>>>> feature/img
 
         <form class="category-form" method="get" action="/store/dishes/create">
             <button type="submit" class="category-button">Добавить блюдо</button>

@@ -15,7 +15,7 @@ public interface DishRestClient {
 
     Optional<Dish> findDishById(Long dishId);
 
-    void updateDish(Long dishId, String name, String description, String category, Boolean availability, Double price);
+    Dish updateDish(Long dishId, DishDtoRequest requestDto, MultipartFile image);
 
     List<Dish> getAllDishes();
 
