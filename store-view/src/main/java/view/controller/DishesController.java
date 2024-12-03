@@ -24,51 +24,21 @@ public class DishesController {
     }
 
     @GetMapping("category")
-<<<<<<< HEAD
-    public String getDishListByCategory(Model model, @RequestParam(name = "category", required = false) String category,
-                                        @RequestParam(required = false, name = "reset") String reset) {
-//        if(reset !=null && reset.equals("true")){
-//            category=null;
-//            return "redirect:/"
-//        }
-        if (category == null || category.isEmpty()) {
-            return "redirect:/store/dishes/list";
-        } else if (category.equals("all")) {
-            model.addAttribute("dishes", this.dishRestClient.getAllDishes());
-
-        }
-=======
     public String getDishListByCategory(Model model, @RequestParam(name = "category", required = false) String category) {
         if (category != null) {
             if (category.equals("all")) {
                 model.addAttribute("dishes", this.dishRestClient.getAllDishes());
                 return "store/dishes/list";
->>>>>>> feature/img
 
             } else {
                 model.addAttribute("dishes", this.dishRestClient.getAllDishesByCategory(category));
                 model.addAttribute("category", category);
                 return "store/dishes/list";
 
-<<<<<<< HEAD
-        return "store/dishes/list";
-    }
-
-    //todo Сделать так чтобы один ендпоинт возвращал мог обработать разные значения получение с категорией и без нее
-    // путем задания значения all для кнопки, тогда в таблице будет возвращаться все товары
-    // либо как-то еще
-    @PostMapping("create")
-    public String createNewDish(DishDtoResponse dishDto, Model model) {
-        Dish dish = this.dishRestClient
-                .createDish(dishDto.name(), dishDto.description(),
-                        dishDto.category(), dishDto.availability(), dishDto.price());
-        return "redirect:/store/dishes/%d".formatted(dish.id());
-=======
             }
         } else {
             return "store/dishes/list";
         }
->>>>>>> feature/img
     }
 
 
