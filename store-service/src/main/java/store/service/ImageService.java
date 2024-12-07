@@ -1,12 +1,10 @@
 package store.service;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import store.entity.Image;
 
 public interface ImageService {
 
-    Image saveImage(MultipartFile file);
+    String saveImage(MultipartFile file);
 
-    ResponseEntity<Image> getImageById(Long imageId);
+//    ResponseEntity<Image> getImageById(Long imageId);
 }

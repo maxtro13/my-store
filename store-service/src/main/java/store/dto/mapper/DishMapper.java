@@ -21,25 +21,33 @@ public class DishMapper {
     }
 
     public DishResponseDto toDto(Dish dish) {
-        if (dish.getImage() == null) {
-            return new DishResponseDto(
-                    dish.getId(),
-                    dish.getName(),
-                    dish.getDescription(),
-                    dish.getCategory().name(),
-                    dish.getAvailability(),
-                    dish.getPrice(),
-                    0L);
-        } else {
-            return new DishResponseDto(
-                    dish.getId(),
-                    dish.getName(),
-                    dish.getDescription(),
-                    dish.getCategory().name(),
-                    dish.getAvailability(),
-                    dish.getPrice(),
-                    dish.getImage().getId());
-        }
+//        if (dish.getImage() == null) {
+//            return new DishResponseDto(
+//                    dish.getId(),
+//                    dish.getName(),
+//                    dish.getDescription(),
+//                    dish.getCategory().name(),
+//                    dish.getAvailability(),
+//                    dish.getPrice(),
+//                    0L);
+//        } else {
+//            return new DishResponseDto(
+//                    dish.getId(),
+//                    dish.getName(),
+//                    dish.getDescription(),
+//                    dish.getCategory().name(),
+//                    dish.getAvailability(),
+//                    dish.getPrice(),
+//                    dish.getImage().getId());
+//        }
+        return new DishResponseDto(
+                dish.getId(),
+                dish.getName(),
+                dish.getDescription(),
+                dish.getCategory().name(),
+                dish.getAvailability(),
+                dish.getPrice(),
+                0L);
     }
 
     public void updateEntity(Dish dish, DishRequestDto requestDto) {

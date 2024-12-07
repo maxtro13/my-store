@@ -12,7 +12,6 @@ import store.dto.DishResponseDto;
 import store.dto.mapper.DishMapper;
 import store.entity.Category;
 import store.entity.Dish;
-import store.entity.Image;
 import store.repositories.DishRepository;
 import store.service.DishService;
 import store.service.ImageService;
@@ -27,7 +26,7 @@ public class DishServiceImpl implements DishService {
 
     private final DishRepository dishRepository;
     private final DishMapper dishMapper;
-    private final ImageService imageService;
+//    private final ImageService imageService;
 
 
     @Transactional
@@ -42,8 +41,8 @@ public class DishServiceImpl implements DishService {
             responseDto = dishMapper.toDto(
                     dishRepository.save(dish));
         } else {
-            Image image = imageService.saveImage(requestDto.getImage());
-            dish.setImage(image);
+//            Image image = imageService.saveImage(requestDto.getImage());
+//            dish.setImage(image);
             responseDto = dishMapper.toDto(
                     dishRepository.save(dish));
         }
@@ -75,9 +74,9 @@ public class DishServiceImpl implements DishService {
             dishMapper.updateEntity(dish, requestDto);
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         } else {
-            Image image = imageService.saveImage(requestDto.getImage());
+//            Image image = imageService.saveImage(requestDto.getImage());
             dishMapper.updateEntity(dish, requestDto);
-            dish.setImage(image);
+//            dish.setImage(image);
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         }
     }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema ="store", name = "dish")
+@Table(schema = "store", name = "dish")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -30,11 +30,7 @@ public class Dish {
     private Double price;
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    private String getImagePath(){
-        return image!=null?image.getFilePath():"";
-    }
 }
