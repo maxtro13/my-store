@@ -10,10 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestClient;
 import store.service.YandexDiskService;
 
-//import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +23,8 @@ public class YandexDiskServiceImpl implements YandexDiskService {
     @Value("${YANDEX_OAUTH_VERIFICATION_CODE}")
     private String accessToken;
 
-    //    private final RestClient restClient;
-    private final WebClient webClient;
+    private final RestClient restClient;
+    //    private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -57,17 +56,14 @@ public class YandexDiskServiceImpl implements YandexDiskService {
     }
 
 
-
-
     private String getUploaderHref(String pathOnDisk) throws Exception {
 //
         String url = "/upload?path=/krolls/" + pathOnDisk + "&overwrite=true";
-        var response = this.webClient
+        var response = this.restClient
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .body(String.class);
 
         Response uploadHrefResponse = objectMapper.readValue(response, Response.class);
         return uploadHrefResponse.getHref();
@@ -77,13 +73,11 @@ public class YandexDiskServiceImpl implements YandexDiskService {
     public String getPreviewUrl(String pathOnDisk) throws Exception {
 
         String url = "?path=/krolls/" + pathOnDisk + "&fields=preview&preview_size=S";
-        var response = this.webClient
+        var response = this.restClient
                 .get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
-
+                .body(String.class);
 
         JsonNode jsonNode = objectMapper.readTree(response);
         JsonNode previewNode = jsonNode.path("preview");
@@ -97,26 +91,23 @@ public class YandexDiskServiceImpl implements YandexDiskService {
 
 
     private void putFileData(String uploadUrl, byte[] data, String mimeType) throws Exception {
-        this.webClient.
+        this.restClient.
                 put()
                 .uri(uploadUrl)
                 .header("Content-Type", mimeType)
-                .bodyValue(data)
+                .body(data)
                 .retrieve()
-                .bodyToMono(Void.class)
-                .block();
-
+                .toBodilessEntity();
     }
 
     private String publishFile(String pathOnDisk) throws Exception {
         String url = "/publish?path=/krolls/" + pathOnDisk;  //+ URLEncoder.encode("/krolls/"+pathOnDisk, StandardCharsets.UTF_8);
 
-        String response = this.webClient
+        String response = this.restClient
                 .put()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .body(String.class);
 
         Response publicResponse = objectMapper.readValue(response, Response.class);
         return publicResponse.getHref();
@@ -130,7 +121,5 @@ public class YandexDiskServiceImpl implements YandexDiskService {
         private String method;
         private boolean templated;
     }
-
-
 }
 

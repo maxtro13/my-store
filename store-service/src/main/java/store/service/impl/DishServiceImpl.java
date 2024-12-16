@@ -50,14 +50,7 @@ public class DishServiceImpl implements DishService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Тип файла должен быть jpeg или png");
 
         } else {
-            String filePathOnDisk = "food_image_" + requestDto.getImage().getOriginalFilename();
-
-            String imageUrl = this.yandexDiskService.uploadFile(filePathOnDisk,
-                    requestDto.getImage().getBytes(),
-                    requestDto.getImage().getContentType());
-            dish.setImageUrl(imageUrl);
-            Image image = imageService.saveImage(requestDto.getImage(), imageUrl);
-            dish.setImage(image);
+            uploadFile(requestDto, dish);
             responseDto = dishMapper.toDto(dishRepository.save(dish));
         }
         return ResponseEntity.created(UriComponentsBuilder.newInstance()
@@ -80,7 +73,7 @@ public class DishServiceImpl implements DishService {
 
     @Transactional
     @Override
-    public ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto) {
+    public ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto) throws Exception {
         Dish dish = dishRepository.findById(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
@@ -88,12 +81,14 @@ public class DishServiceImpl implements DishService {
             dishMapper.updateEntity(dish, requestDto);
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         } else {
-//            Image image = imageService.saveImage(requestDto.getImage());
+            if (!(requestDto.getImage().getOriginalFilename().equals(dish.getImage().getOriginalFileName()))) {
+                uploadFile(requestDto, dish);
+            }
             dishMapper.updateEntity(dish, requestDto);
-//            dish.setImage(image);
             return ResponseEntity.ok(dishMapper.toDto(dishRepository.save(dish)));
         }
     }
+
 
     @Transactional
     @Override
@@ -121,6 +116,16 @@ public class DishServiceImpl implements DishService {
                         .map(dishMapper::toDto)
                         .toList()
         );
+    }
+
+    private void uploadFile(DishRequestDto requestDto, Dish dish) throws Exception {
+        String filePathOnDisk = "food_image_" + requestDto.getImage().getOriginalFilename();
+        String imageUrl = this.yandexDiskService.uploadFile(filePathOnDisk,
+                requestDto.getImage().getBytes(),
+                requestDto.getImage().getContentType());
+        dish.setImageUrl(imageUrl);
+        Image image = imageService.saveImage(requestDto.getImage(), imageUrl);
+        dish.setImage(image);
     }
 
 

@@ -15,7 +15,7 @@ public interface DishService {
 
     ResponseEntity<DishResponseDto> findDishById(Long dishId);
 
-    ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto);
+    ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto) throws Exception;
 
     void deleteDishById(Long dishId);
 

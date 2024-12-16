@@ -24,7 +24,7 @@ public class DishRestController {
     public ResponseEntity<DishResponseDto> updateDishById(
             @PathVariable("dishId") Long dishId,
             @ModelAttribute @Valid DishRequestDto dto
-    ) {
+    )throws Exception {
         return dishService.updateDishById(dishId, dto);
     }
 
