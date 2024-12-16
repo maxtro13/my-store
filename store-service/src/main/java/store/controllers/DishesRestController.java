@@ -20,7 +20,7 @@ public class DishesRestController {
     private final DishService dishService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> createDish(@ModelAttribute @Valid DishRequestDto requestDto) {
+    public ResponseEntity<?> createDish(@ModelAttribute @Valid DishRequestDto requestDto) throws Exception {
         return dishService.create(requestDto);
     }
 

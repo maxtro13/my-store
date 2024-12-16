@@ -6,11 +6,12 @@ import store.dto.DishRequestDto;
 import store.dto.DishResponseDto;
 import store.entity.Category;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DishService {
 
-    ResponseEntity<?> create(DishRequestDto requestDto);
+    ResponseEntity<?> create(DishRequestDto requestDto) throws Exception;
 
     ResponseEntity<DishResponseDto> findDishById(Long dishId);
 

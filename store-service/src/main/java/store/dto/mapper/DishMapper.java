@@ -16,38 +16,32 @@ public class DishMapper {
         dish.setDescription(requestDto.getDescription().trim());
         dish.setPrice(requestDto.getPrice());
         dish.setAvailability(requestDto.getAvailability());
-
         return dish;
     }
 
     public DishResponseDto toDto(Dish dish) {
-//        if (dish.getImage() == null) {
-//            return new DishResponseDto(
-//                    dish.getId(),
-//                    dish.getName(),
-//                    dish.getDescription(),
-//                    dish.getCategory().name(),
-//                    dish.getAvailability(),
-//                    dish.getPrice(),
-//                    0L);
-//        } else {
-//            return new DishResponseDto(
-//                    dish.getId(),
-//                    dish.getName(),
-//                    dish.getDescription(),
-//                    dish.getCategory().name(),
-//                    dish.getAvailability(),
-//                    dish.getPrice(),
-//                    dish.getImage().getId());
-//        }
-        return new DishResponseDto(
-                dish.getId(),
-                dish.getName(),
-                dish.getDescription(),
-                dish.getCategory().name(),
-                dish.getAvailability(),
-                dish.getPrice(),
-                0L);
+        if (dish.getImage() == null) {
+            return new DishResponseDto(
+                    dish.getId(),
+                    dish.getName(),
+                    dish.getDescription(),
+                    dish.getCategory().name(),
+                    dish.getAvailability(),
+                    dish.getPrice(),
+                    "хуй",
+                    null);
+        } else {
+            return new DishResponseDto(
+                    dish.getId(),
+                    dish.getName(),
+                    dish.getDescription(),
+                    dish.getCategory().name(),
+                    dish.getAvailability(),
+                    dish.getPrice(),
+                    dish.getImageUrl(),
+                    dish.getImage().getId());
+        }
+
     }
 
     public void updateEntity(Dish dish, DishRequestDto requestDto) {

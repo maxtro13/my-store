@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
   datasource:
     url: jdbc:postgresql://localhost:5434/store_db1
@@ -11,13 +11,13 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
-#      location: D:\IdeadProjects\OCTOBER\my-store\store-service\src\main\resources\images
+      location: D:\IdeadProjects\OCTOBER\my-store\store-view\src\main\resources\static\images
 logging:
   level:
     sql: trace
     web: trace
 server:
   port: 8081
-yandex:
-  oauth:
-    verification-code:
+#yandex:
+#  oauth:
+#    verification-code:

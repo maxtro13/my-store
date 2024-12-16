@@ -1,11 +1,11 @@
 package store.dto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import store.entity.Category;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,5 +24,6 @@ public class DishResponseDto {
     private Boolean availability;
     private Double price;
 
+    private String image_url;
     private Long imageId;
 }

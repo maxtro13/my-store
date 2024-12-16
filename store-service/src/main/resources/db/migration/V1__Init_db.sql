@@ -7,5 +7,5 @@ create table if not exists store.dish
     category     varchar(32)   not null,
     availability boolean,
     price        decimal(5, 2),
-    image_url varchar 
+    image_url varchar (2048)
 );
