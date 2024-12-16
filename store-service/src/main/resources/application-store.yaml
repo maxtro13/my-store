@@ -20,4 +20,4 @@ server:
   port: 8081
 #yandex:
 #  oauth:
-#    verification-code:
+#    verification-code
