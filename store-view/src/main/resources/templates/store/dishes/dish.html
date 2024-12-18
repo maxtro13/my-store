@@ -8,23 +8,25 @@
 <body>
 <div class="dish-info">
     <h2>Информация о блюде</h2>
-    <img data-th-src="" alt="">
+<!--    <img data-th-src="@{${dish.imageUrl}}" alt="Фотография блюда" style="width: 200px; height: 200px"  >-->
+    <img src="https://downloader.disk.yandex.ru/disk/fc2e9f1206fc8b50e1e08c33b015270e9a5c9391b8c32128ae9be5e800f3aef8/67638967/2TkzNFGvc_SdPGFyoEbo7k_-5MDd9ZirkfmJNc8JJbI_ZZZcY4b-vtIrGcwldzdqbBU0NqPEhc_ElTNv-e5Wzw%3D%3D?uid=605493173&filename=food_image_up.png&disposition=attachment&hash=&limit=0&content_type=image%2Fpng&owner_uid=605493173&fsize=25207&hid=be4460ac53deaa3f50497f2749f70e78&media_type=image&tknv=v2&etag=00f5a0c621179058b9157f66331db3a8" alt="Фотография блюда">
     <ul>
-        <li><strong>ID </strong> <span data-th-text="${dish.id()}"> </span></li>
-        <li><strong>Название </strong><span data-th-text="${dish.name()}"> </span></li>
-        <li><strong>Описание </strong><span data-th-text="${dish.description()}"> </span></li>
-        <li><strong>Цена </strong><span data-th-text="${dish.price()}"> </span></li>
-        <li><strong>Наличие </strong><span data-th-text="${dish.availability()}"> </span></li>
-        <li><strong>Категория </strong><span data-th-text="${dish.category()}"> </span></li>
-        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId()}"></span></li>
+
+        <li><strong>ID </strong> <span data-th-text="${dish.id}"> </span></li>
+        <li><strong>Название </strong><span data-th-text="${dish.name}"> </span></li>
+        <li><strong>Описание </strong><span data-th-text="${dish.description}"> </span></li>
+        <li><strong>Цена </strong><span data-th-text="${dish.price}"> </span></li>
+        <li><strong>Наличие </strong><span data-th-text="${dish.availability}"> </span></li>
+        <li><strong>Категория </strong><span data-th-text="${dish.category}"> </span></li>
+        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId}"></span></li>
         <li><a href="#" onclick="goBack()"><strong style="color: darkorange">Назад</strong> </a></li>
 
     </ul>
     <div class="div-form">
-        <form data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
+        <form data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id})}">
             <button class="edit-button" type="submit">Изменить блюдо</button>
         </form>
-        <form method="post" data-th-action="@{/store/dishes/{dishId}/delete(dishId=${dish.id()})}">
+        <form method="post" data-th-action="@{/store/dishes/{dishId}/delete(dishId=${dish.id})}">
             <button class="edit-button" type="submit" onclick="showModal()">Удалить блюдо</button>
         </form>
         <form action="/store/dishes/category">

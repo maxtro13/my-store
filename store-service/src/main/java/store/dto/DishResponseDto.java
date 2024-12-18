@@ -24,6 +24,6 @@ public class DishResponseDto {
     private Boolean availability;
     private Double price;
 
-    private String image_url;
+    private String imageUrl;
     private Long imageId;
 }

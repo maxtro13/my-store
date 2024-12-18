@@ -8,7 +8,7 @@
 <body>
 <div class="dish-info">
     <h2> Изменение блюда</h2>
-    <form method="post" enctype="multipart/form-data" data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id()})}">
+    <form method="post" enctype="multipart/form-data" data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id})}">
         <ul>
             <li>
                 <strong>ID </strong>
@@ -17,21 +17,21 @@
             <li>
                 <label>
                     <strong>Название:</strong>
-                    <input type="text" name="name" data-th-value="${dish.name()}" required>
+                    <input type="text" name="name" data-th-value="${dish.name}" required>
                 </label>
             </li>
             <li>
                 <label>
                     <strong>Описание </strong>
-                    <textarea class="textarea" name="description" data-th-text="${dish.description()}"
-                              data-th-value="${dish.description()}"></textarea>
+                    <textarea class="textarea" name="description" data-th-text="${dish.description}"
+                              data-th-value="${dish.description}"></textarea>
                 </label>
             </li>
             <li>
                 <label>
                     <strong>Категория </strong>
                     <select name="category" required>
-                        <option data-th-text="${dish.category()}" data-th-value="${dish.category()}"></option>
+                        <option data-th-text="${dish.category}" data-th-value="${dish.category}"></option>
                         <option value="ROLLS">Роллы</option>
                         <option value="SOUPS">Супы</option>
                     </select>
@@ -46,7 +46,7 @@
             <li>
                 <label>
                     <strong>Цена </strong>
-                    <input type="number" name="price" data-th-value="${dish.price()}">
+                    <input type="number" name="price" data-th-value="${dish.price}">
                 </label>
             </li>
             <li>

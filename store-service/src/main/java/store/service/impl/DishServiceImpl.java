@@ -46,7 +46,7 @@ public class DishServiceImpl implements DishService {
             responseDto = dishMapper.toDto(
                     dishRepository.save(dish));
 
-        } else if ((!requestDto.getImage().getContentType().equals("image/png") || requestDto.getImage().getContentType().equals("image/jpeg"))) {
+        } else if (!(requestDto.getImage().getContentType().equals("image/png") || requestDto.getImage().getContentType().equals("image/jpeg"))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Тип файла должен быть jpeg или png");
 
         } else {

@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- Добавляем xmlns:th для Thymeleaf -->
 <head>
     <meta charset="UTF-8">
     <title>Добавление блюда</title>
     <link rel="stylesheet" href="/css/create_dish.css">
-
 </head>
 <body>
 
-<form method="post" id="createForm" enctype="multipart/form-data" data-th-action="@{/store/dishes/create}">
-    <div data-th-if="${errors}">
+
+<form method="post" id="createForm" enctype="multipart/form-data" th:action="@{/store/dishes/create}">
+    <div th:if="${errors}">
         <h2>Допущены ошибки</h2>
         <ul>
-            <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+            <li th:each="error : ${errors}" th:text="${error}"></li>
         </ul>
     </div>
     <label>
         Название:
         <input type="text" name="name" required>
-
     </label>
     <label>
         Описание:
@@ -37,7 +36,7 @@
     </label>
     <label>
         Цена:
-        <input type="number" id="price" name="price" required>
+        <input type="number" name="price" required>
     </label>
     <label>
         Фото:
@@ -45,5 +44,6 @@
     </label>
     <button type="submit">Добавить блюдо</button>
 </form>
+
 </body>
 </html>
