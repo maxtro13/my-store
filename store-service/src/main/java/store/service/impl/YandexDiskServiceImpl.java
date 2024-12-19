@@ -24,7 +24,6 @@ public class YandexDiskServiceImpl implements YandexDiskService {
     private String accessToken;
 
     private final RestClient restClient;
-    //    private final WebClient webClient;
     private final ObjectMapper objectMapper;
 
     @Override
