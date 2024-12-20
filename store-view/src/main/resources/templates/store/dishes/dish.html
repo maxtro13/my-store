@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="/css/dish.css">
 </head>
 <body>
-<div class="dish-info">
+<div class="dish-info" >
     <h2>Информация о блюде</h2>
-    <img data-th-src="@{${dish.imageUrl}}" alt="Фотография блюда" style="width: 200px; height: 200px"  >
+    <img data-th-src="${dish.imageUrl}"   alt="Фотография блюда" style="width: 200px; height: 200px"  >
     <ul>
         <li><strong>ID </strong> <span data-th-text="${dish.id}"> </span></li>
         <li><strong>Название </strong><span data-th-text="${dish.name}"> </span></li>
@@ -16,7 +16,7 @@
         <li><strong>Цена </strong><span data-th-text="${dish.price}"> </span></li>
         <li><strong>Наличие </strong><span data-th-text="${dish.availability}"> </span></li>
         <li><strong>Категория </strong><span data-th-text="${dish.category}"> </span></li>
-        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId}"></span></li>
+        <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId}?: 'Отсутсвует изображение'"></span></li>
         <li><a href="#" onclick="goBack()"><strong style="color: darkorange">Назад</strong> </a></li>
 
     </ul>

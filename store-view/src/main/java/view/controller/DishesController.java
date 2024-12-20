@@ -48,7 +48,7 @@ public class DishesController {
         try {
             Dish dish = this.storeRestClient
                     .createDish(requestDto, image);
-            return "redirect:/store/dishes/%d".formatted(dish.id());
+            return "redirect:/store/dishes/%d".formatted(dish.getId());
         } catch (BadRequestException exception) {
             model.addAttribute("errors", exception.getErrors());
             return "/store/dishes/create_dish";

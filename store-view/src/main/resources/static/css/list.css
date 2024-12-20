@@ -86,3 +86,34 @@ body {
     gap: 10px;
     justify-content: center;
 }
+.edit-button {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 16px;
+    background-color: darkorange;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.edit-button:hover {
+    background-color: whitesmoke;
+}
+.action-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+.action-container a {
+    text-decoration: none;
+    color: white;
+}
+
+.action-container strong {
+    font-weight: bold;
+}

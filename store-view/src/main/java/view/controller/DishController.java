@@ -22,8 +22,10 @@ public class DishController {
     public Dish dish(@PathVariable("dishId") Long dishId, Model model) {
         Dish dish = this.storeRestClient.findDishById(dishId)
                 .orElseThrow(() -> new NoSuchElementException("Not found"));
-        if (dish.imageId() != 0) {
-            model.addAttribute("image", this.storeRestClient.getImageById(dish.imageId()));
+        if (dish.getImageId() !=null) {
+            model.addAttribute("image", this.storeRestClient.getImageById(dish.getImageId()));
+        }else{
+            dish.setImageUrl("/images/default.jpg");
         }
         return dish;
     }
@@ -49,7 +51,7 @@ public class DishController {
 
     @PostMapping("/delete")
     public String deleteDish(Dish dish) {
-        this.storeRestClient.deleteDish(dish.id());
+        this.storeRestClient.deleteDish(dish.getId());
         return "redirect:/store/dishes/category";
     }
 }
