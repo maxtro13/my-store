@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"> <!-- Добавляем xmlns:th для Thymeleaf -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Добавление блюда</title>
@@ -7,6 +7,10 @@
 </head>
 <body>
 
+<!-- Индикатор загрузки -->
+<div id="loadingIndicator" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+</div>
 
 <form method="post" id="createForm" enctype="multipart/form-data" th:action="@{/store/dishes/create}">
     <div th:if="${errors}">
@@ -44,6 +48,9 @@
     </label>
     <button type="submit">Добавить блюдо</button>
 </form>
+
+<!-- JavaScript-код -->
+<script src="/js/loadBar.js"></script>
 
 </body>
 </html>
