@@ -4,7 +4,7 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    url: jdbc:postgresql://localhost:5434/store_db1
+    url: jdbc:postgresql://localhost:5432/store_db1
     username: ADMIN
     password: adminpassword
   servlet:
