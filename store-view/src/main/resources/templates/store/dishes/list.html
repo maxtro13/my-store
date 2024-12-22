@@ -38,8 +38,8 @@
         <tr data-th-each="dish: ${dishes}">
             <td class="dish-name">
                 <div style="display: flex; justify-content: space-between;">
-                    <strong><span><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.getId()})}"
-                                     data-th-text="${dish.getName()}"></a></span></strong>
+                    <strong><span><a data-th-href="@{/store/dishes/{dishId}(dishId=${dish.id})}"
+                                     data-th-text="${dish.name}"></a></span></strong>
                     <div class="action-container">
                     <span >
                         <strong>
