@@ -1,9 +1,9 @@
-package store.repositories;
+package store.dishes.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import store.entity.Category;
-import store.entity.Dish;
+import store.dishes.entity.Category;
+import store.dishes.entity.Dish;
 
 import java.util.List;
 

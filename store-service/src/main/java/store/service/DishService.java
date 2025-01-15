@@ -1,12 +1,10 @@
 package store.service;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.multipart.MultipartFile;
-import store.dto.DishRequestDto;
-import store.dto.DishResponseDto;
-import store.entity.Category;
+import store.dishes.dto.DishRequestDto;
+import store.dishes.dto.DishResponseDto;
+import store.dishes.entity.Category;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface DishService {

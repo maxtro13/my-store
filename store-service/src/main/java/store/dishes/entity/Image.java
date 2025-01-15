@@ -1,4 +1,4 @@
-package store.entity;
+package store.dishes.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

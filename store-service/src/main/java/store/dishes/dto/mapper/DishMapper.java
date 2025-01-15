@@ -1,9 +1,9 @@
-package store.dto.mapper;
+package store.dishes.dto.mapper;
 
 import org.springframework.stereotype.Component;
-import store.dto.DishRequestDto;
-import store.dto.DishResponseDto;
-import store.entity.Dish;
+import store.dishes.dto.DishRequestDto;
+import store.dishes.dto.DishResponseDto;
+import store.dishes.entity.Dish;
 
 @Component
 public class DishMapper {

@@ -1,4 +1,4 @@
-package store.dto;
+package store.dishes.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
-import store.entity.Category;
+import store.dishes.entity.Category;
 
 @Getter
 @Setter

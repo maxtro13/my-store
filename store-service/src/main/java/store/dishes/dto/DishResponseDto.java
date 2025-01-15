@@ -1,4 +1,4 @@
-package store.dto;
+package store.dishes.dto;
 
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

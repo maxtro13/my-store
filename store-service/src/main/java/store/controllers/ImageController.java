@@ -42,6 +42,5 @@ public class ImageController {
     public ResponseEntity<?> getImageById(@PathVariable(name = "imageId") Long imageId) throws Exception {
         return ResponseEntity.ok(this.imageService.getImageById(imageId));
     }
-    //todo разобраться че за х
 }
 

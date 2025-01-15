@@ -1,4 +1,4 @@
-package store.entity;
+package store.dishes.entity;
 
 public enum Category {
     DESSERTS("DESSERTS"),

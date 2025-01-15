@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-import store.entity.Image;
-import store.repositories.ImageRepository;
+import store.dishes.entity.Image;
+import store.dishes.repositories.ImageRepository;
 import store.service.ImageService;
 
 import java.io.File;

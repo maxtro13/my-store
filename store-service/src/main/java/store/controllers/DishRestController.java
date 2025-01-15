@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import store.dto.DishRequestDto;
-import store.dto.DishResponseDto;
+import store.dishes.dto.DishRequestDto;
+import store.dishes.dto.DishResponseDto;
 import store.service.DishService;
 
 @RestController

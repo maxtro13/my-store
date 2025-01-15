@@ -1,0 +1,59 @@
+/* Стили для категории */
+.category {
+    margin: 20px;
+}
+
+/* Стили для заголовка категории */
+.category h2 {
+    margin-bottom: 10px;
+}
+
+/* Стили для сетки продуктов */
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Стили для карточки товара */
+.product-card {
+    flex: 1 1 calc(33.333% - 20px); /* Три карточки в ряд */
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Стили для изображения в карточке */
+.product-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Стили для текста описания */
+.product-card p {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Адаптивность для экранов с маленьким разрешением */
+@media screen and (max-width: 768px) {
+    .product-card {
+        flex: 1 1 calc(50% - 20px); /* Две карточки в ряд */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product-card {
+        flex: 1 1 100%; /* Одна карточка в ряд */
+        margin-right: 0;
+        margin-left: 0;
+    }
+}
