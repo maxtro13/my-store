@@ -1,4 +1,4 @@
-package store.service.impl;
+package store.dishes.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,9 +16,9 @@ import store.dishes.entity.Category;
 import store.dishes.entity.Dish;
 import store.dishes.entity.Image;
 import store.dishes.repositories.DishRepository;
-import store.service.DishService;
-import store.service.ImageService;
-import store.service.YandexDiskService;
+import store.dishes.service.ImageService;
+import store.dishes.service.YandexDiskService;
+import store.dishes.service.DishService;
 
 import java.util.List;
 import java.util.stream.StreamSupport;

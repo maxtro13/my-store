@@ -1,4 +1,4 @@
-package store.service;
+package store.dishes.service;
 
 public interface YandexDiskService {
     //todo понять почему иногда не возвращается публичная ссылка

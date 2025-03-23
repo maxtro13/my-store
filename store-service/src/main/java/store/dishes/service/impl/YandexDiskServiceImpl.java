@@ -1,4 +1,4 @@
-package store.service.impl;
+package store.dishes.service.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-import store.service.YandexDiskService;
+import store.dishes.service.YandexDiskService;
 
 
 @Service

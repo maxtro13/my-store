@@ -1,4 +1,4 @@
-package store.controllers;
+package store.dishes.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import store.dishes.dto.DishRequestDto;
 import store.dishes.dto.DishResponseDto;
-import store.service.DishService;
+import store.dishes.service.DishService;
 
 @RestController
 @RequestMapping("/store-api/v1/dishes/{dishId}")

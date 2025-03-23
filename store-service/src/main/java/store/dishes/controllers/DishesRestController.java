@@ -1,4 +1,4 @@
-package store.controllers;
+package store.dishes.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import store.dishes.dto.DishRequestDto;
 import store.dishes.dto.DishResponseDto;
 import store.dishes.entity.Category;
-import store.service.DishService;
+import store.dishes.service.DishService;
 
 import java.util.List;
 

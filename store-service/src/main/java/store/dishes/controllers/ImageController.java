@@ -1,4 +1,4 @@
-package store.controllers;
+package store.dishes.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import store.service.ImageService;
-import store.service.YandexDiskService;
+import store.dishes.service.ImageService;
+import store.dishes.service.YandexDiskService;
 
 @RestController
 @RequestMapping("/store-api/v1/images")

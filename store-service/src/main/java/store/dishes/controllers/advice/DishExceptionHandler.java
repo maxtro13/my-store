@@ -1,4 +1,4 @@
-package store.controllers.advice;
+package store.dishes.controllers.advice;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;

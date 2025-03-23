@@ -1,4 +1,4 @@
-package store.service.impl;
+package store.dishes.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import store.dishes.entity.Image;
 import store.dishes.repositories.ImageRepository;
-import store.service.ImageService;
+import store.dishes.service.ImageService;
 
 import java.io.File;
 import java.io.IOException;

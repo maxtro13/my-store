@@ -4,14 +4,9 @@ spring:
       ddl-auto: update
     show-sql: true
   datasource:
-    store_db1:
-      url: jdbc:postgresql://localhost:5434/dishes
-      username: ADMIN
-      password: adminpassword
-    Users:
-      url: jdbc:postgresql://localhost:5433/users
-      username: ADMIN
-      password: password
+    url: jdbc:postgresql://localhost:5434/dishes
+    username: ADMIN
+    password: adminpassword
   servlet:
     multipart:
       max-file-size: 20MB

@@ -1,4 +1,4 @@
-package store.service;
+package store.dishes.service;
 
 import org.springframework.http.ResponseEntity;
 import store.dishes.dto.DishRequestDto;
