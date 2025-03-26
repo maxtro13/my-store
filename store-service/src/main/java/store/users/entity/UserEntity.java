@@ -3,15 +3,16 @@ package store.users.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
+@Table(schema = "store", name = "user_entity")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 public class UserEntity {
 
 
