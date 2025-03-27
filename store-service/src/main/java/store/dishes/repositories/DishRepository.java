@@ -1,11 +1,14 @@
 package store.dishes.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import store.dishes.entity.Category;
 import store.dishes.entity.Dish;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long> {
@@ -15,4 +18,7 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     boolean existsByNameContainsIgnoreCase(String name);
 
     List<Dish> findAllByCategory(Category category);
+
+    @Query("SELECT d FROM Dish d LEFT JOIN FETCH d.image WHERE d.id = :id")
+    Optional<Dish> findByIdWithImage(@Param("id") Long id);
 }

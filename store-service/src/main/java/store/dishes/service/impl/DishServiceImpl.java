@@ -16,9 +16,9 @@ import store.dishes.entity.Category;
 import store.dishes.entity.Dish;
 import store.dishes.entity.Image;
 import store.dishes.repositories.DishRepository;
+import store.dishes.service.DishService;
 import store.dishes.service.ImageService;
 import store.dishes.service.YandexDiskService;
-import store.dishes.service.DishService;
 
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -64,7 +64,7 @@ public class DishServiceImpl implements DishService {
     public ResponseEntity<DishResponseDto> findDishById(Long dishId) {
         return ResponseEntity.ok(
                 dishMapper.toDto(
-                        dishRepository.findById(dishId)
+                        dishRepository.findByIdWithImage(dishId)
                                 .orElseThrow(
                                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dish not found"))
                 )
@@ -74,7 +74,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     @Override
     public ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto) throws Exception {
-        Dish dish = dishRepository.findById(dishId)
+        Dish dish = dishRepository.findByIdWithImage(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
         if (requestDto.getImage() == null || requestDto.getImage().isEmpty()) {
@@ -93,7 +93,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     @Override
     public void deleteDishById(Long dishId) {
-        dishRepository.findById(dishId)
+        dishRepository.findByIdWithImage(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Dish not found"));
         dishRepository.deleteById(dishId);

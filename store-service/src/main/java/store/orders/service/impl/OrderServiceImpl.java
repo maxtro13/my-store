@@ -56,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
                     return orderItemRepository.save(orderItem);
                 })
                 .toList();
+
 //todo разобраться в причине ошибки
         order.setItems(orderItems);
         return orderRepository.save(order);
