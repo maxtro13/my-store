@@ -1,6 +1,7 @@
 package store.orders.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,13 +34,14 @@ public class OrderEntity {
     @Column(name = "delivery_address", length = 500)
     private String deliveryAddress;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderDetails> items = new ArrayList<>();
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderDetails> orderDetails = new ArrayList<>();
 
     @PrePersist
     @PreUpdate
     private void calculateTotalPrice() {
-        this.totalPrice = items.stream()
+        this.totalPrice = orderDetails.stream()
                 .mapToDouble(orderDetails ->
                         orderDetails.getFixedPrice() * orderDetails.getQuantity())
                 .sum();

@@ -10,6 +10,7 @@ import store.dishes.entity.Dish;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long> {
@@ -23,11 +24,7 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
     @Query("SELECT d FROM Dish d LEFT JOIN FETCH d.image WHERE d.id = :id")
     Optional<Dish> findByIdWithImage(@Param("id") Long id);
 
-    @EntityGraph(
-            type = EntityGraph.EntityGraphType.FETCH,
-            attributePaths = {}
-    )
-    @Query("SELECT d FROM Dish d WHERE d.id IN :ids")
-    List<Dish> findAllByIdWithoutImages(@Param("ids") List<Long> ids);
 
+    @Query("SELECT COUNT(d) = :size FROM Dish d WHERE d.id IN :ids")
+    boolean existsAllByIds(@Param("ids") Set<Long> ids, @Param("size") long size);
 }

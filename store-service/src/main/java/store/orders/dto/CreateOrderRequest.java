@@ -16,5 +16,5 @@ import java.util.List;
 public class CreateOrderRequest {
 
     private String deliveryAddress;
-    private List<OrderItemRequest> items = new ArrayList<>();
+    private List<OrderDetailsRequest> orderDetails = new ArrayList<>();
 }

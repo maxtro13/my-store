@@ -6,20 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-import store.dishes.entity.Dish;
 import store.dishes.repositories.DishRepository;
 import store.orders.dto.CreateOrderRequest;
-import store.orders.dto.OrderItemRequest;
+import store.orders.dto.OrderDetailsRequest;
 import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
-import store.orders.repository.OrderItemRepository;
 import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,38 +24,39 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final DishRepository dishRepository;
-    private final OrderItemRepository orderItemRepository;
 
     @Override
     @Transactional
     public OrderEntity createOrder(CreateOrderRequest orderRequest) {
+        Set<Long> ids = orderRequest.getOrderDetails()
+                .stream()
+                .map(OrderDetailsRequest::getDishId)
+                .collect(Collectors.toSet());
+
+        if (!dishRepository.existsAllByIds(ids, ids.size())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Блюда не найдены");
+        }
+
         OrderEntity order = new OrderEntity();
-        order.setDeliveryAddress(orderRequest.getDeliveryAddress());
+        if (orderRequest.getDeliveryAddress() != null) {
+            order.setDeliveryAddress(orderRequest.getDeliveryAddress());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Адрес доставки не указан");
+        }
 
-        List<Long> dishIds = orderRequest.getItems()
+        List<OrderDetails> orderDetails = orderRequest.getOrderDetails()
                 .stream()
-                .map(OrderItemRequest::getDishId)
-                .toList();
-
-        Map<Long, Dish> dishes = dishRepository.findAllByIdWithoutImages(dishIds)
-                .stream()
-                .collect(Collectors.toMap(Dish::getId, Function.identity()));
-
-        List<OrderDetails> orderDetails = orderRequest.getItems()
-                .stream()
-                .map(orderItemRequest -> {
-                    Dish dish = Optional.ofNullable(dishes.get(orderItemRequest.getDishId()))
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dish not found"));
-                    OrderDetails orderDetail = new OrderDetails();
-                    orderDetail.setDishId(orderItemRequest.getDishId());
-                    orderDetail.setQuantity(orderItemRequest.getQuantity());
-                    orderDetail.setFixedPrice(dish.getPrice());
-                    orderDetail.setOrder(order);
-                    return orderItemRepository.save(orderDetail);
+                .map(item -> {
+                    OrderDetails detail = new OrderDetails();
+                    detail.setId(item.getDishId());
+                    detail.setQuantity(item.getQuantity());
+                    detail.setFixedPrice(item.getPrice());
+                    detail.setOrder(order);
+                    log.info("----Order details :{}", detail);
+                    return detail;
                 })
                 .toList();
-//todo переделать все без использования блюд и всего такого просто сохранять айдишники из дто и из запроса перестать обращаться к бд блюд,
-        order.setItems(orderDetails);
+        order.setOrderDetails(orderDetails);
         return orderRepository.save(order);
     }
 }
