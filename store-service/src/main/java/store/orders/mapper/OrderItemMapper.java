@@ -2,20 +2,19 @@ package store.orders.mapper;
 
 import org.springframework.stereotype.Component;
 import store.dishes.dto.DishRequestDto;
-import store.dishes.entity.Dish;
-import store.orders.entity.OrderItem;
+import store.orders.entity.OrderDetails;
 
 @Component
 public class OrderItemMapper {
 
-    public OrderItem toOrderItemFromDishRequestDto(DishRequestDto requestDto) {
+    public OrderDetails toOrderItemFromDishRequestDto(DishRequestDto requestDto) {
         return null;
     }
 
-    public OrderItem toOrderItemFromDish(Dish dish) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setDish(dish);
-        orderItem.setFixedPrice(dish.getPrice());
-        return null;
-    }
+//    public OrderItem toOrderItemFromDish(Dish dish) {
+//        OrderItem orderItem = new OrderItem();
+//        orderItem.setDish(dish);
+//        orderItem.setFixedPrice(dish.getPrice());
+//        return null;
+//    }
 }

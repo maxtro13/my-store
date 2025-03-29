@@ -10,8 +10,8 @@ import store.dishes.entity.Dish;
 import store.dishes.repositories.DishRepository;
 import store.orders.dto.CreateOrderRequest;
 import store.orders.dto.OrderItemRequest;
+import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
-import store.orders.entity.OrderItem;
 import store.orders.repository.OrderItemRepository;
 import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
@@ -40,25 +40,26 @@ public class OrderServiceImpl implements OrderService {
                 .stream()
                 .map(OrderItemRequest::getDishId)
                 .toList();
-        Map<Long, Dish> dishes = dishRepository.findAllById(dishIds)
+
+        Map<Long, Dish> dishes = dishRepository.findAllByIdWithoutImages(dishIds)
                 .stream()
                 .collect(Collectors.toMap(Dish::getId, Function.identity()));
-        List<OrderItem> orderItems = orderRequest.getItems()
+
+        List<OrderDetails> orderDetails = orderRequest.getItems()
                 .stream()
                 .map(orderItemRequest -> {
                     Dish dish = Optional.ofNullable(dishes.get(orderItemRequest.getDishId()))
                             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Dish not found"));
-                    OrderItem orderItem = new OrderItem();
-                    orderItem.setDish(dish);
-                    orderItem.setQuantity(orderItemRequest.getQuantity());
-                    orderItem.setFixedPrice(dish.getPrice());
-                    orderItem.setOrder(order);
-                    return orderItemRepository.save(orderItem);
+                    OrderDetails orderDetail = new OrderDetails();
+                    orderDetail.setDishId(orderItemRequest.getDishId());
+                    orderDetail.setQuantity(orderItemRequest.getQuantity());
+                    orderDetail.setFixedPrice(dish.getPrice());
+                    orderDetail.setOrder(order);
+                    return orderItemRepository.save(orderDetail);
                 })
                 .toList();
-
-//todo разобраться в причине ошибки
-        order.setItems(orderItems);
+//todo переделать все без использования блюд и всего такого просто сохранять айдишники из дто и из запроса перестать обращаться к бд блюд,
+        order.setItems(orderDetails);
         return orderRepository.save(order);
     }
 }

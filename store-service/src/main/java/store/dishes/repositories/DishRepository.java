@@ -1,5 +1,6 @@
 package store.dishes.repositories;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,4 +22,12 @@ public interface DishRepository extends JpaRepository<Dish, Long> {
 
     @Query("SELECT d FROM Dish d LEFT JOIN FETCH d.image WHERE d.id = :id")
     Optional<Dish> findByIdWithImage(@Param("id") Long id);
+
+    @EntityGraph(
+            type = EntityGraph.EntityGraphType.FETCH,
+            attributePaths = {}
+    )
+    @Query("SELECT d FROM Dish d WHERE d.id IN :ids")
+    List<Dish> findAllByIdWithoutImages(@Param("ids") List<Long> ids);
+
 }

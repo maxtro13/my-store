@@ -5,15 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import store.dishes.entity.Dish;
 
 @Entity
-@Table(schema = "store",name = "order_item")
+@Table(schema = "store", name = "order_item")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class OrderItem {
+public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +23,8 @@ public class OrderItem {
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dish_id", nullable = false)
-    private Dish dish;
+    @Column(name = "dish_id")
+    private Long dishId;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -34,8 +32,5 @@ public class OrderItem {
     @Column(name = "fixed_price")
     private Double fixedPrice;
 
-    @PrePersist
-    protected void saveFixedPrice() {
-        this.fixedPrice = dish.getPrice();
-    }
+
 }

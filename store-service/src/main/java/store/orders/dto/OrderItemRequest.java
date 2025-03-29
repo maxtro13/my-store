@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OrderItemRequest {
     private Long dishId;
-    private Integer quantity;;
+    private Integer quantity;
+    private Double price;
 }

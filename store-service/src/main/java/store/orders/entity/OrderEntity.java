@@ -34,14 +34,14 @@ public class OrderEntity {
     private String deliveryAddress;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items = new ArrayList<>();
+    private List<OrderDetails> items = new ArrayList<>();
 
     @PrePersist
     @PreUpdate
     private void calculateTotalPrice() {
         this.totalPrice = items.stream()
-                .mapToDouble(orderItem ->
-                        orderItem.getFixedPrice() * orderItem.getQuantity())
+                .mapToDouble(orderDetails ->
+                        orderDetails.getFixedPrice() * orderDetails.getQuantity())
                 .sum();
     }
 }
