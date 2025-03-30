@@ -14,5 +14,6 @@ public class OrderDetailsRequest {
     private Long dishId;
     private Integer quantity;
     private Double price;
+    private String name;
 }
 //todo добавить название к содержимому заказа, решить проблему почему не сохраняется содержимое

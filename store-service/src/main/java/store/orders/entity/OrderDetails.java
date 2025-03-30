@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(schema = "store", name = "order_item")
+@Table(schema = "store", name = "order_details")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -34,5 +34,7 @@ public class OrderDetails {
     @Column(name = "fixed_price")
     private Double fixedPrice;
 
+    @Column(name = "name")
+    private String name;
 
 }

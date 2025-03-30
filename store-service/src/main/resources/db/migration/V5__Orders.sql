@@ -6,7 +6,7 @@ create table if not exists store.orders
     delivery_address varchar(500)
 );
 
-create table if not exists store.order_item
+create table if not exists store.order_details
 (
     item_id     serial primary key,
     quantity    int   not null check ( quantity > 0 ) default 1,

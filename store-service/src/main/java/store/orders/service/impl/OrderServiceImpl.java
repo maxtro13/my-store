@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
                     detail.setDishId(item.getDishId());
                     detail.setQuantity(item.getQuantity());
                     detail.setFixedPrice(item.getPrice());
+                    detail.setName(item.getName());
                     detail.setOrder(order);
                     log.info("----Order details :{}", detail);
                     return detail;
