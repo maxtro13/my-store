@@ -25,7 +25,7 @@ public class OrderDetails {
     @JsonBackReference
     private OrderEntity order;
 
-    @Column(name = "dish_id")
+    @Column(name = "dish_id", nullable = false)
     private Long dishId;
 
     @Column(nullable = false)

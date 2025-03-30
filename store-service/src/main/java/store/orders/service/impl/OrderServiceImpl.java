@@ -15,6 +15,7 @@ import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,17 +39,14 @@ public class OrderServiceImpl implements OrderService {
         }
 
         OrderEntity order = new OrderEntity();
-        if (orderRequest.getDeliveryAddress() != null) {
-            order.setDeliveryAddress(orderRequest.getDeliveryAddress());
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Адрес доставки не указан");
-        }
+        order.setDeliveryAddress(Optional.ofNullable(orderRequest.getDeliveryAddress())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Адрес доставки обязателен")));
 
         List<OrderDetails> orderDetails = orderRequest.getOrderDetails()
                 .stream()
                 .map(item -> {
                     OrderDetails detail = new OrderDetails();
-                    detail.setId(item.getDishId());
+                    detail.setDishId(item.getDishId());
                     detail.setQuantity(item.getQuantity());
                     detail.setFixedPrice(item.getPrice());
                     detail.setOrder(order);

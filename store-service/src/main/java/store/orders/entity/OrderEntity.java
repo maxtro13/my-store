@@ -34,7 +34,7 @@ public class OrderEntity {
     @Column(name = "delivery_address", length = 500)
     private String deliveryAddress;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade =CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<OrderDetails> orderDetails = new ArrayList<>();
 
