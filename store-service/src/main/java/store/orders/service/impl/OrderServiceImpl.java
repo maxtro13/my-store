@@ -9,8 +9,11 @@ import org.springframework.web.server.ResponseStatusException;
 import store.dishes.repositories.DishRepository;
 import store.orders.dto.CreateOrderRequest;
 import store.orders.dto.OrderDetailsRequest;
+import store.orders.dto.OrderEntityResponse;
 import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
+import store.orders.entity.OrderStatus;
+import store.orders.mapper.OrderMapper;
 import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
 
@@ -23,12 +26,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class OrderServiceImpl implements OrderService {
+
     private final OrderRepository orderRepository;
     private final DishRepository dishRepository;
+    private final OrderMapper orderMapper;
 
     @Override
     @Transactional
-    public OrderEntity createOrder(CreateOrderRequest orderRequest) {
+    public OrderEntityResponse createOrder(CreateOrderRequest orderRequest) {
         Set<Long> ids = orderRequest.getOrderDetails()
                 .stream()
                 .map(OrderDetailsRequest::getDishId)
@@ -56,6 +61,23 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .toList();
         order.setOrderDetails(orderDetails);
-        return orderRepository.save(order);
+        return orderMapper.toOrderEntityResponse(orderRepository.save(order));
+    }
+
+    //todo переделать маппер
+    @Transactional
+    @Override
+    public OrderEntityResponse getOrderById(Long id) {
+        return orderMapper.toOrderEntityResponse(orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Блюдо с таким айди не найдено")));
+    }
+
+
+    @Override
+    public OrderEntityResponse updateOrderStatusById(OrderStatus orderStatus, Long id) {
+        OrderEntity orderEntity = orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Блюдо с таким айди не найдено"));
+        orderMapper.updateStatusOrderEntity(orderEntity, orderStatus);
+        return orderMapper.toOrderEntityResponse(orderEntity);
     }
 }

@@ -3,10 +3,7 @@ package store.orders.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(schema = "store", name = "orders")
+@Builder(toBuilder = true)
 public class OrderEntity {
 
     @Id
@@ -34,7 +32,7 @@ public class OrderEntity {
     @Column(name = "delivery_address", length = 500)
     private String deliveryAddress;
 
-    @OneToMany(mappedBy = "order", cascade =CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<OrderDetails> orderDetails = new ArrayList<>();
 

@@ -18,7 +18,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class DishExceptionHandler {
 
-    private final MessageSource messageSource;
+    private final MessageSource      messageSource;
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ProblemDetail> handleBindException(BindException ex, Locale locale) {
