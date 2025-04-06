@@ -1,7 +1,6 @@
 package store.orders.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,6 @@ public class OrdersController {
 
     @PostMapping("/create")
     public ResponseEntity<OrderEntityResponse> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(orderService.createOrder(createOrderRequest));
+        return orderService.createOrder(createOrderRequest);
     }
 }
