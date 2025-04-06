@@ -1,5 +1,6 @@
 package store.orders.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class OrdersController {
     private final OrderService orderService;
 
     @PostMapping("/create")
-    public ResponseEntity<OrderEntityResponse> createOrder(@RequestBody CreateOrderRequest createOrderRequest) {
+    public ResponseEntity<OrderEntityResponse> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
         return orderService.createOrder(createOrderRequest);
     }
 }
