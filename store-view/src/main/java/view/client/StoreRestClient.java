@@ -1,6 +1,7 @@
 package view.client;
 
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
 import view.entity.Image;
@@ -23,5 +24,7 @@ public interface StoreRestClient {
     void deleteDish(Long dishId);
 
     Image getImageById(Long imageId);
+
+//    Mono<Dish> createDish(DishDtoRequest dtoRequest, MultipartFile image);
 }
 

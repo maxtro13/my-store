@@ -15,7 +15,7 @@ public class DishRestClientConfig {
                 RestClient.builder()
                         .baseUrl("http://localhost:8081")
                         .build());
-    }
 
+    }
 
 }

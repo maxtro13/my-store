@@ -2,6 +2,7 @@ package view.client.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.util.LinkedMultiValueMap;
@@ -9,6 +10,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
@@ -27,7 +31,6 @@ public class StoreRestClientImpl implements StoreRestClient {
 
     private final RestClient restClient;
 
-
     @Override
     public Dish createDish(DishDtoRequest requestDto, MultipartFile image) {
         try {
@@ -44,6 +47,23 @@ public class StoreRestClientImpl implements StoreRestClient {
 
         }
     }
+
+//    @Override
+//    public Mono<Dish> createDish(DishDtoRequest requestDto, MultipartFile image) {
+//        return this.webClient
+//                .post()
+//                .uri("/store-api/v1/dishes")
+//                .contentType(MediaType.MULTIPART_FORM_DATA)
+//                .body(BodyInserters.fromMultipartData(bodyForMethod(requestDto, image)))
+//                .retrieve()
+//                .onStatus(HttpStatusCode::is4xxClientError, response ->
+//                        response.bodyToMono(ProblemDetail.class)
+//                                .flatMap(problemDetail ->
+//                                        Mono.error(new BadRequestException((List<String>) problemDetail.getProperties().get("errors")))
+//                                )
+//                )
+//                .bodyToMono(Dish.class);
+//    }
 
     @Override
     public List<Dish> getAllDishesByCategory(String category) {

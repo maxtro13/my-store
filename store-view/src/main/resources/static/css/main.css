@@ -1,59 +1,70 @@
-/* Стили для категории */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Светлый фон */
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #343a40;
+}
+
 .category {
-    margin: 20px;
+    margin-bottom: 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для заголовка категории */
-.category h2 {
-    margin-bottom: 10px;
-}
-
-/* Стили для сетки продуктов */
 .product-grid {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    flex-wrap: wrap; /* Обеспечиваем обтекание карточек */
+    justify-content: space-around; /* Центрируем содержимое */
 }
 
-/* Стили для карточки товара */
 .product-card {
-    flex: 1 1 calc(33.333% - 20px); /* Три карточки в ряд */
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    background-color: #f9f9f9;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    margin: 10px;
     padding: 10px;
+    width: 200px;
     text-align: center;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    transition: transform 0.2s; /* Плавный переход для эффекта */
 }
 
-/* Стили для изображения в карточке */
+.product-card:hover {
+    transform: scale(1.05); /* Увеличение карточки при наведении */
+}
+
 .product-card img {
     max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    height: 150px; /* Фиксированная высота для изображений */
+    object-fit: cover; /* Обрезка изображения по размеру */
 }
 
-/* Стили для текста описания */
-.product-card p {
-    font-size: 14px;
-    color: #333;
+.modal-body img {
+    max-width: 100%;
+    height: auto; /* Автоматическая высота */
 }
 
-/* Адаптивность для экранов с маленьким разрешением */
-@media screen and (max-width: 768px) {
-    .product-card {
-        flex: 1 1 calc(50% - 20px); /* Две карточки в ряд */
-    }
+.modal-header {
+    border-bottom: none; /* Убираем нижнюю границу */
 }
 
-@media screen and (max-width: 480px) {
-    .product-card {
-        flex: 1 1 100%; /* Одна карточка в ряд */
-        margin-right: 0;
-        margin-left: 0;
-    }
+.modal-footer {
+    border-top: none; /* Убираем верхнюю границу */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Цвет кнопки «Закрыть» */
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Цвет кнопки при наведении */
 }

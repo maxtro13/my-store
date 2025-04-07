@@ -1,51 +1,121 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Каталог товаров</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Основные стили страницы */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa; /* Светлый фон */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #343a40;
+        }
+
+        .category {
+            margin-bottom: 40px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap; /* Обеспечиваем обтекание карточек */
+            justify-content: space-around; /* Центрируем содержимое */
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            transition: transform 0.2s; /* Плавный переход для эффекта */
+        }
+
+        .product-card:hover {
+            transform: scale(1.05); /* Увеличение карточки при наведении */
+        }
+
+        .product-card img {
+            max-width: 100%;
+            border-radius: 8px;
+            height: 150px; /* Фиксированная высота для изображений */
+            object-fit: cover; /* Обрезка изображения по размеру */
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto; /* Автоматическая высота */
+        }
+
+        .modal-header {
+            border-bottom: none; /* Убираем нижнюю границу */
+        }
+
+        .modal-footer {
+            border-top: none; /* Убираем верхнюю границу */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Цвет кнопки «Закрыть» */
+            border-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Цвет кнопки при наведении */
+        }
+    </style>
 </head>
+
 <body>
-
-<!-- Категория товаров -->
-<div class="category">
-    <h2>Роллы</h2>
-    <div class="product-grid">
-        <div class="product-card">
-            <img src="https://downloader.disk.yandex.ru/preview/7e009ed0524d4f3591c3eb08ec2b048957e1ac305c4f2f44d995dc9269332d95/inf/MmxeA76ytecI3xfQkhSRML41j6U3ebDBYFLqXF6tnbw29M5oFIDtMje48u1S2lxbgUiyX4RWSUKD-bP2utecMg%3D%3D?uid=605493173&filename=food_image_8397.png&disposition=inlin   e&hash=&limit=0&content_type=image%2Fpng&owner_uid=605493173&tknv=v2&size=S&crop=0" alt="Название товара 1">
-            <p>Краткое описание товара 1</p>
+<div th:each="dish : ${dishes}">
+    <div class="category">
+        <h2 data-th-text="${dish.category}">Категория</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img data-th-src="${dish.imageUrl}" th:alt="${dish.name}" data-toggle="modal" th:data-target="'#modal-' + ${dish.id}">
+                <p data-th-text="${dish.name}">Название блюда</p>
+            </div>
         </div>
-        <div class="product-card">
-            <img src="https://downloader.disk.yandex.ru/preview/d32156cb23bd91d25fd5060e70f6aed83caabfb4ff0610dc96ade5ebe6cea415/inf/BtYh6RG4yhZlpvJ3ymAqxcOx-NQtgwuc2BRS03RPnGKhTGiadbkBeQDIXMTajcBCAYcXUQ26ctXXCCWq7LunFg%3D%3D?uid=605493173&filename=food_image_8397.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=605493173&tknv=v2&size=S&crop=0" alt="Название товара 2">
-            <p>Краткое описание товара 2</p>
-        </div>
+    </div>
 
-        <div class="product-card">
-            <img src="image3.jpg" alt="Название товара 3">
-            <p>Краткое описание товара 3</p>
+    <div data-th-each="dish : ${dishes}">
+        <div class="modal fade" data-th-target="'modal-' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" data-th-text="${dish.name}">Название блюда</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img data-th-src="${dish.imageUrl}" class="img-fluid" alt="Изображение блюда">
+                        <p data-th-text="${dish.description}">Описание блюда</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Другие категории -->
-<div class="category">
-    <h2>Пицца</h2>
-    <div class="product-grid">
-        <!-- Карточки товаров для категории "Пицца" -->
-        <div class="product-card">
-            <img src="pizza1.jpg" alt="Пицца 1">
-            <p>Краткое описание пиццы 1</p>
-        </div>
-        <div class="product-card">
-            <img src="pizza2.jpg" alt="Пицца 2">
-            <p>Краткое описание пиццы 2</p>
-        </div>
-        <div class="product-card">
-            <img src="pizza3.jpg" alt="Пицца 3">
-            <p>Краткое описание пиццы 3</p>
-        </div>
-    </div>
-</div>
-
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

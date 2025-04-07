@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
@@ -18,10 +19,22 @@ public class DishesController {
     private final StoreRestClient storeRestClient;
 
 
-    @GetMapping
+    @GetMapping("")
     public String getDishListPage() {
         return "redirect:/store/dishes/category";
     }
+
+
+//    @PostMapping(value = "create")
+//    public Mono<String> createDish(@ModelAttribute DishDtoRequest requestDto,
+//                                   @RequestParam(name = "image", required = false) MultipartFile image, Model model) {
+//        return this.storeRestClient.createDish(requestDto, image)
+//                .map(dish -> "redirect:/store/dishes/%d".formatted(dish.getId()))
+//                .onErrorResume(BadRequestException.class, exception -> {
+//                    model.addAttribute("errors", exception.getErrors());
+//                    return Mono.just("/store/dishes/create_dish");
+//                });
+//    }
 
     @GetMapping("category")
     public String getDishListByCategory(Model model, @RequestParam(name = "category", required = false) String category) {
@@ -42,6 +55,7 @@ public class DishesController {
     }
 
 
+
     @PostMapping(value = "create")
     public String createNewDish(@ModelAttribute DishDtoRequest requestDto,
                                 @RequestParam(name = "image", required = false) MultipartFile image, Model model) {
@@ -54,6 +68,7 @@ public class DishesController {
             return "/store/dishes/create_dish";
         }
     }
+
 
     @GetMapping(value = "create")
     public String createNewDish() {
