@@ -18,7 +18,6 @@
         <li><strong>Категория </strong><span data-th-text="${dish.category}"> </span></li>
         <li><strong>Айди изображения</strong><span data-th-text="${dish.imageId}?: 'Отсутсвует изображение'"></span></li>
         <li><a href="#" onclick="goBack()"><strong style="color: darkorange">Назад</strong> </a></li>
-
     </ul>
     <div class="div-form">
         <form data-th-action="@{/store/dishes/{dishId}/edit(dishId=${dish.id})}">
