@@ -2,111 +2,101 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Каталог товаров</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категория Роллы</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        /* Основные стили страницы */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa; /* Светлый фон */
-            margin: 0;
+            background-color: #f9f9f9;
             padding: 20px;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
-            color: #343a40;
-        }
-
-        .category {
-            margin-bottom: 40px;
-            background: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-grid {
-            display: flex;
-            flex-wrap: wrap; /* Обеспечиваем обтекание карточек */
-            justify-content: space-around; /* Центрируем содержимое */
+            color: #333;
         }
 
         .product-card {
             background: #fff;
             border: 1px solid #e1e1e1;
             border-radius: 8px;
-            margin: 10px;
-            padding: 10px;
-            width: 200px;
-            text-align: center;
-            transition: transform 0.2s; /* Плавный переход для эффекта */
+            padding: 15px;
+            height: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .product-card:hover {
-            transform: scale(1.05); /* Увеличение карточки при наведении */
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .product-card img {
-            max-width: 100%;
-            border-radius: 8px;
-            height: 150px; /* Фиксированная высота для изображений */
-            object-fit: cover; /* Обрезка изображения по размеру */
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
         }
 
-        .modal-body img {
-            max-width: 100%;
-            height: auto; /* Автоматическая высота */
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
         }
 
-        .modal-header {
-            border-bottom: none; /* Убираем нижнюю границу */
-        }
-
-        .modal-footer {
-            border-top: none; /* Убираем верхнюю границу */
-        }
-
-        .btn-secondary {
-            background-color: #6c757d; /* Цвет кнопки «Закрыть» */
-            border-color: #6c757d;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268; /* Цвет кнопки при наведении */
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
         }
     </style>
 </head>
 
 <body>
-<div th:each="dish : ${dishes}">
-    <div class="category">
-        <h2 data-th-text="${dish.category}">Категория</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <img data-th-src="${dish.imageUrl}" th:alt="${dish.name}" data-toggle="modal" th:data-target="'#modal-' + ${dish.id}">
-                <p data-th-text="${dish.name}">Название блюда</p>
-            </div>
-        </div>
-    </div>
+<h1>Категория: Роллы</h1>
 
-    <div data-th-each="dish : ${dishes}">
-        <div class="modal fade" data-th-target="'modal-' + ${dish.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" data-th-text="${dish.name}">Название блюда</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <img data-th-src="${dish.imageUrl}" class="img-fluid" alt="Изображение блюда">
-                        <p data-th-text="${dish.description}">Описание блюда</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+<div class="container">
+    <div class="row">
+        <!-- Используем адаптивные классы Bootstrap -->
+        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-4"
+             th:each="dish : ${dishes}">
+            <div class="product-card">
+                <img th:src="${dish.imageUrl}" alt="Ролл" class="img-fluid">
+                <h5 class="card-title" th:text="${dish.name}"></h5>
+                <button class="btn btn-primary btn-sm"
+                        data-toggle="modal"
+                        th:attr="data-target='#productModal-' + ${dish.id}">
+                    Подробнее
+                </button>
+            </div>
+
+            <!-- Модальное окно -->
+            <div class="modal fade"
+                 th:id="'productModal-' + ${dish.id}"
+                 tabindex="-1" role="dialog"
+                 aria-labelledby="modalTitle-[[${dish.id}]]"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" th:text="${dish.name}"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img th:src="${dish.imageUrl}" alt="Ролл" class="img-fluid mb-3">
+                                </div>
+                                <div class="col-md-6">
+                                    <p th:text="${dish.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,7 +104,7 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>

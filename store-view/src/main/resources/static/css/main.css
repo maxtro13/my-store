@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Светлый фон */
+    background-color: #f9f9f9;
     margin: 0;
     padding: 20px;
 }
@@ -8,63 +8,58 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #343a40;
+    color: #333;
 }
 
-.category {
-    margin-bottom: 40px;
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.product-grid {
+.category-container {
     display: flex;
-    flex-wrap: wrap; /* Обеспечиваем обтекание карточек */
-    justify-content: space-around; /* Центрируем содержимое */
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-bottom: 40px;
+}
+
+.category-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: calc(33.333% - 20px);
 }
 
 .product-card {
     background: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 8px;
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
+    padding: 15px;
     text-align: center;
-    transition: transform 0.2s; /* Плавный переход для эффекта */
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-card:hover {
-    transform: scale(1.05); /* Увеличение карточки при наведении */
+    transform: scale(1.03);
 }
 
 .product-card img {
     max-width: 100%;
     border-radius: 8px;
-    height: 150px; /* Фиксированная высота для изображений */
-    object-fit: cover; /* Обрезка изображения по размеру */
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
-.modal-body img {
-    max-width: 100%;
-    height: auto; /* Автоматическая высота */
+.btn {
+    margin-top: 10px;
 }
 
-.modal-header {
-    border-bottom: none; /* Убираем нижнюю границу */
+@media (max-width: 992px) {
+    .category-column {
+        width: calc(50% - 20px);
+    }
 }
 
-.modal-footer {
-    border-top: none; /* Убираем верхнюю границу */
-}
-
-.btn-secondary {
-    background-color: #6c757d; /* Цвет кнопки «Закрыть» */
-    border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268; /* Цвет кнопки при наведении */
+@media (max-width: 576px) {
+    .category-column {
+        width: 100%;
+    }
 }

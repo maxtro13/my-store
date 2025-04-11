@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.ResponseStatusException;
 import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
@@ -55,7 +55,6 @@ public class DishesController {
     }
 
 
-
     @PostMapping(value = "create")
     public String createNewDish(@ModelAttribute DishDtoRequest requestDto,
                                 @RequestParam(name = "image", required = false) MultipartFile image, Model model) {
@@ -63,6 +62,9 @@ public class DishesController {
             Dish dish = this.storeRestClient
                     .createDish(requestDto, image);
             return "redirect:/store/dishes/%d".formatted(dish.getId());
+        } catch (ResponseStatusException exception) {
+            model.addAttribute("errors", exception.getReason());
+            return "store/dishes/create_dish";
         } catch (BadRequestException exception) {
             model.addAttribute("errors", exception.getErrors());
             return "/store/dishes/create_dish";

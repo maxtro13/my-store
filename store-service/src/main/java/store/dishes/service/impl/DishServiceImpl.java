@@ -38,7 +38,7 @@ public class DishServiceImpl implements DishService {
     @Override
     public ResponseEntity<?> create(DishRequestDto requestDto) throws Exception {
         if (dishRepository.existsByNameContainingIgnoreCase(requestDto.getName().trim())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Позиция с таким названием уже существует");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Позиция с таким названием уже существует");
         }
         DishResponseDto responseDto;
         Dish dish = dishMapper.toEntity(requestDto);

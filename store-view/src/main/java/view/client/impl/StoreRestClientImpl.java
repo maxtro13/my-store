@@ -2,7 +2,7 @@ package view.client.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.util.LinkedMultiValueMap;
@@ -10,9 +10,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.web.server.ResponseStatusException;
 import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
@@ -41,10 +39,12 @@ public class StoreRestClientImpl implements StoreRestClient {
                     .body(bodyForMethod(requestDto, image))
                     .retrieve()
                     .body(Dish.class);
+        } catch (HttpClientErrorException.Conflict exception) {
+            ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, problemDetail.getProperties().get("errors").toString());
         } catch (HttpClientErrorException.BadRequest exception) {
             ProblemDetail problemDetail = exception.getResponseBodyAs(ProblemDetail.class);
             throw new BadRequestException((List<String>) problemDetail.getProperties().get("errors"));
-
         }
     }
 

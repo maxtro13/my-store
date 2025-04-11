@@ -18,7 +18,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 public class DishExceptionHandler {
 
-    private final MessageSource      messageSource;
+    private final MessageSource messageSource;
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ProblemDetail> handleBindException(BindException ex, Locale locale) {
@@ -40,8 +40,23 @@ public class DishExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ProblemDetail> handleResponseStatusException(ResponseStatusException ex, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
-                ex.getReason());
-        return ResponseEntity.badRequest().body(problemDetail);
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+
+        return switch (ex.getStatusCode()) {
+            case HttpStatus.BAD_REQUEST -> {
+                problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+                problemDetail.setProperty("errors", ex.getReason());
+                yield ResponseEntity.badRequest().body(problemDetail);
+
+            }
+            case HttpStatus.CONFLICT -> {
+                problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+                problemDetail.setProperty("errors", ex.getReason());
+                yield ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + ex.getStatusCode());
+        };
+
     }
+
 }
