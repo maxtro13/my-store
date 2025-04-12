@@ -29,4 +29,3 @@ public class DishHomePageController {
         return "store/dishes/main";
     }
 }
-//todo Сделать разделение карточки, чтобы в одном столбе было три штуки, остальные переносили в другой столбец

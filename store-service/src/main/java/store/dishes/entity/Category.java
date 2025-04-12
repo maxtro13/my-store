@@ -1,10 +1,10 @@
 package store.dishes.entity;
 
 public enum Category {
-    DESSERTS("DESSERTS"),
-    SOUPS("SOUPS"),
-    PIZZAS("PIZZA"),
-    ROLLS("ROLLS");
+    DESSERTS("Дессерты"),
+    SOUPS("Супы"),
+    PIZZAS("Пицца"),
+    ROLLS("Роллы");
 
     Category(String category) {
     }
