@@ -19,13 +19,11 @@ public class DishHomePageController {
 
     @GetMapping
     public String showHomePage(Model model) {
-        List<Dish> dishes = this.storeRestClient.getAllDishes();
-//        Map<String, List<Dish>> dishesByCategory = dishes.stream()
-//                .collect(Collectors.groupingBy(Dish::getCategory));
-//        model.addAttribute("dishesByCategory", dishesByCategory);
-        model.addAttribute("dishes", Lists.partition(dishes, 3).stream()
-                .flatMap(List::stream)
-                .toList());
+//        List<Dish> dishes = this.storeRestClient.getAllDishes();
+//        model.addAttribute("dishes", Lists.partition(dishes, 3).stream()
+//                .flatMap(List::stream)
+//                .toList());
+
         List<Dish> rolls = this.storeRestClient.getAllDishesByCategory("ROLLS");
         model.addAttribute("rolls", Lists.partition(rolls, 3).stream()
                 .flatMap(List::stream)
@@ -33,6 +31,15 @@ public class DishHomePageController {
 
         List<Dish> soups = this.storeRestClient.getAllDishesByCategory("SOUPS");
         model.addAttribute("soups", Lists.partition(soups, 3).stream()
+                .flatMap(List::stream)
+                .toList());
+
+        List<Dish> desserts = this.storeRestClient.getAllDishesByCategory("DESSERTS");
+        model.addAttribute("desserts", Lists.partition(soups, 3).stream()
+                .flatMap(List::stream)
+                .toList());
+        List<Dish> pizzas = this.storeRestClient.getAllDishesByCategory("PIZZAS");
+        model.addAttribute("pizzas", Lists.partition(soups, 3).stream()
                 .flatMap(List::stream)
                 .toList());
 
