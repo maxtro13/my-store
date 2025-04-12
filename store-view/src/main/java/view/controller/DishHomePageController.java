@@ -26,6 +26,17 @@ public class DishHomePageController {
         model.addAttribute("dishes", Lists.partition(dishes, 3).stream()
                 .flatMap(List::stream)
                 .toList());
+        List<Dish> rolls = this.storeRestClient.getAllDishesByCategory("ROLLS");
+        model.addAttribute("rolls", Lists.partition(rolls, 3).stream()
+                .flatMap(List::stream)
+                .toList());
+
+        List<Dish> soups = this.storeRestClient.getAllDishesByCategory("SOUPS");
+        model.addAttribute("soups", Lists.partition(soups, 3).stream()
+                .flatMap(List::stream)
+                .toList());
+
         return "store/dishes/main";
     }
+
 }
