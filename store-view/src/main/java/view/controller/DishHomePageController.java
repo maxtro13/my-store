@@ -35,11 +35,11 @@ public class DishHomePageController {
                 .toList());
 
         List<Dish> desserts = this.storeRestClient.getAllDishesByCategory("DESSERTS");
-        model.addAttribute("desserts", Lists.partition(soups, 3).stream()
+        model.addAttribute("desserts", Lists.partition(desserts, 3).stream()
                 .flatMap(List::stream)
                 .toList());
         List<Dish> pizzas = this.storeRestClient.getAllDishesByCategory("PIZZAS");
-        model.addAttribute("pizzas", Lists.partition(soups, 3).stream()
+        model.addAttribute("pizzas", Lists.partition(pizzas, 3).stream()
                 .flatMap(List::stream)
                 .toList());
 
