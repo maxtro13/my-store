@@ -3,6 +3,10 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+  r2dbc:
+    url: r2dbc:pool:postgres://ADMIN:adminpassword@localhost:5432/dishes
+    username: ADMIN
+    password: adminpassword
   datasource:
     url: jdbc:postgresql://localhost:5434/dishes
     username: ADMIN

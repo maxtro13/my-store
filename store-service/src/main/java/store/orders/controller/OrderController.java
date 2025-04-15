@@ -3,6 +3,7 @@ package store.orders.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 import store.orders.dto.OrderEntityResponse;
 import store.orders.dto.UpdateOrderRequest;
 import store.orders.entity.OrderStatus;
@@ -15,26 +16,25 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<OrderEntityResponse> getOrderById(@PathVariable("orderId") Long orderId) {
+    public Mono<ResponseEntity<OrderEntityResponse>> getOrderById(@PathVariable("orderId") Long orderId) {
         return this.orderService.getOrderById(orderId);
     }
 
     @PutMapping
-    public ResponseEntity<OrderEntityResponse> updateOrderStatusById(@PathVariable("orderId") Long orderId,
-                                                                     @RequestParam OrderStatus orderStatus) {
+    public Mono<ResponseEntity<OrderEntityResponse>> updateOrderStatusById(@PathVariable("orderId") Long orderId,
+                                                                           @RequestParam OrderStatus orderStatus) {
         return this.orderService.updateOrderStatusById(orderStatus, orderId);
     }
 
     @PutMapping("/full")
-    public ResponseEntity<OrderEntityResponse> updateFullOrderById(@PathVariable("orderId") Long orderId,
-                                                                   @RequestBody UpdateOrderRequest request) {
+    public Mono<ResponseEntity<OrderEntityResponse>> updateFullOrderById(@PathVariable("orderId") Long orderId,
+                                                                         @RequestBody UpdateOrderRequest request) {
         return this.orderService.updateFullOrderById(orderId, request);
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteOrderById(@PathVariable("orderId") Long orderId) {
-        this.orderService.deleteOrderById(orderId);
-        return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> deleteOrderById(@PathVariable("orderId") Long orderId) {
+        return orderService.deleteOrderById(orderId);
     }
 }
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 import store.dishes.repositories.DishRepository;
 import store.orders.dto.CreateOrderRequest;
 import store.orders.dto.OrderDetailsRequest;
@@ -20,6 +21,7 @@ import store.orders.mapper.OrderMapper;
 import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public ResponseEntity<OrderEntityResponse> createOrder(CreateOrderRequest orderRequest) {
+    public Mono<ResponseEntity<OrderEntityResponse>> createOrder(CreateOrderRequest orderRequest) {
         Set<Long> ids = orderRequest.getOrderDetails()
                 .stream()
                 .map(OrderDetailsRequest::getDishId)
@@ -64,53 +66,64 @@ public class OrderServiceImpl implements OrderService {
                 })
                 .toList();
         order.setOrderDetails(orderDetails);
-        return ResponseEntity.created(UriComponentsBuilder.newInstance()
-                        .replacePath("/store-api/v1/orders/{orderId}")
-                        .build(order.getOrderId()))
-                .body(orderMapper.toOrderEntityResponse(orderRepository.save(order)));
+        return orderRepository.save(order)
+                .map(savedOrder -> {
+                    URI uri = UriComponentsBuilder.newInstance().
+                            replacePath("/store-api/v1/orders/{orderId}")
+                            .build(order.getOrderId());
+                    return ResponseEntity.created(uri)
+                            .body(orderMapper.toOrderEntityResponse(savedOrder));
+                });
     }
 
     @Transactional(readOnly = true)
     @Override
-    public ResponseEntity<OrderEntityResponse> getOrderById(Long id) {
-        return ResponseEntity.ok(orderMapper.toOrderEntityResponse(orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Блюдо с таким айди не найдено"))));
+    public Mono<ResponseEntity<OrderEntityResponse>> getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .map(orderMapper::toOrderEntityResponse)
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Заказ с ID " + id + " не найден")));
     }
 
 
     @Override
     @Transactional
-    public ResponseEntity<OrderEntityResponse> updateOrderStatusById(OrderStatus orderStatus, Long id) {
-        OrderEntity orderEntity = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Блюдо с таким айди не найдено"));
-        orderMapper.updateStatusOrderEntity(orderEntity, orderStatus);
-        return ResponseEntity.ok(orderMapper.toOrderEntityResponse(orderRepository.save(orderEntity)));
+    public Mono<ResponseEntity<OrderEntityResponse>> updateOrderStatusById(OrderStatus orderStatus, Long id) {
+        return orderRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Заказ с ID " + id + " не найден")))
+                .flatMap(orderEntity -> {
+                    orderMapper.updateStatusOrderEntity(orderEntity, orderStatus);
+                    return orderRepository.save(orderEntity)
+                            .map(savedOrder -> ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder)));
+                });
     }
 
     @Override
     @Transactional
-    public ResponseEntity<OrderEntityResponse> updateFullOrderById(Long id, UpdateOrderRequest request) {
-        OrderEntity orderEntity = orderRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Заказ с ID " + id + " не найден"
-                ));
-
-        orderMapper.updateFullOrderById(orderEntity, request);
-
-        return ResponseEntity.ok(
-                orderMapper.toOrderEntityResponse(
-                        orderRepository.save(orderEntity)
-                )
-        );
+    public Mono<ResponseEntity<OrderEntityResponse>> updateFullOrderById(Long id, UpdateOrderRequest request) {
+        return orderRepository.findById(id)
+                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Заказ с ID " + id + " не найден")))
+                .flatMap(orderEntity -> {
+                    orderMapper.updateFullOrderById(orderEntity, request);
+                    return orderRepository.save(orderEntity)
+                            .map(savedOrder -> ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder)));
+                });
     }
 
     @Override
-    public void deleteOrderById(Long id) {
-        if (!this.orderRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Заказ с ID " + id + " не найден");
-        }
-        this.orderRepository.deleteById(id);
+    @Transactional
+    public Mono<ResponseEntity<Void>> deleteOrderById(Long id) {
+        return orderRepository.existsById(id)
+                .flatMap(exist -> {
+                    if (!exist) {
+                        return Mono.error((new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                "Заказ с ID " + id + " не найден")));
+                    }
+                    return this.orderRepository.deleteById(id)
+                            .then(Mono.just(ResponseEntity.noContent().build()));
+                });
     }
 }
