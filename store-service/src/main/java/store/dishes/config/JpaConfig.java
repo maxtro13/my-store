@@ -47,7 +47,6 @@ public class JpaConfig {
         factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return factoryBean;
     }
-
     @Bean
     public PlatformTransactionManager jpaTransactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
