@@ -1,16 +1,17 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
   r2dbc:
-    url: r2dbc:pool:postgres://ADMIN:adminpassword@localhost:5432/dishes
+    url: r2dbc:pool:postgres://localhost:5434/dishes
     username: ADMIN
     password: adminpassword
   datasource:
     url: jdbc:postgresql://localhost:5434/dishes
     username: ADMIN
     password: adminpassword
+    driver-class-name: org.postgresql.Driver
   servlet:
     multipart:
       max-file-size: 20MB
