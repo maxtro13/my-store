@@ -81,12 +81,16 @@
             <artifactId>db2</artifactId>
             <scope>test</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.r2dbc</groupId>-->
+<!--            <artifactId>r2dbc-postgresql</artifactId>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>io.r2dbc</groupId>
+            <groupId>org.postgresql</groupId>
             <artifactId>r2dbc-postgresql</artifactId>
-            <version>0.8.13.RELEASE</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

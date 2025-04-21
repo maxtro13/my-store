@@ -1,19 +1,14 @@
 package store.orders.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
+import org.springframework.data.relational.core.mapping.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(schema = "store", name = "orders")
+@Table("orders")
 @Builder(toBuilder = true)
 public class OrderEntity {
 
@@ -32,16 +27,4 @@ public class OrderEntity {
     @Column(name = "delivery_address", length = 500)
     private String deliveryAddress;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<OrderDetails> orderDetails = new ArrayList<>();
-
-    @PrePersist
-    @PreUpdate
-    private void calculateTotalPrice() {
-        this.totalPrice = orderDetails.stream()
-                .mapToDouble(orderDetails ->
-                        orderDetails.getFixedPrice() * orderDetails.getQuantity())
-                .sum();
-    }
 }

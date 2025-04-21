@@ -18,6 +18,7 @@ import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
 import store.orders.entity.OrderStatus;
 import store.orders.mapper.OrderMapper;
+import store.orders.repository.OrderDetailsRepository;
 import store.orders.repository.OrderRepository;
 import store.orders.service.OrderService;
 
@@ -34,10 +35,12 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final DishRepository dishRepository;
+    private final OrderDetailsRepository orderDetailsRepository;
     private final OrderMapper orderMapper;
 
+
     @Override
-    @Transactional
+    @Transactional(transactionManager = "connectionFactoryTransactionManager")
     public Mono<ResponseEntity<OrderEntityResponse>> createOrder(CreateOrderRequest orderRequest) {
         Set<Long> ids = orderRequest.getOrderDetails()
                 .stream()
@@ -60,22 +63,31 @@ public class OrderServiceImpl implements OrderService {
                     detail.setQuantity(item.getQuantity());
                     detail.setFixedPrice(item.getPrice());
                     detail.setName(item.getName());
-                    detail.setOrder(order);
+                    detail.setOrderId(order.getOrderId());
                     log.info("----Order details :{}", detail);
                     return detail;
                 })
-                .toList();
-        order.setOrderDetails(orderDetails);
-        return orderRepository.save(order)
-                .map(savedOrder -> {
-                    URI uri = UriComponentsBuilder.newInstance().
-                            replacePath("/store-api/v1/orders/{orderId}")
-                            .build(order.getOrderId());
-                    return ResponseEntity.created(uri)
-                            .body(orderMapper.toOrderEntityResponse(savedOrder));
+                .collect(Collectors.toList());
+        order.setTotalPrice(orderDetails.stream()
+                .mapToDouble(orderDetails1 ->
+                        orderDetails1.getFixedPrice() * orderDetails1.getQuantity())
+                .sum());
+        return this.orderRepository.save(order)
+                .flatMap(savedOrder -> {
+                    orderDetails.forEach(detail -> detail.setOrderId(savedOrder.getOrderId()));
+                    return orderDetailsRepository.saveAll(orderDetails)
+                            .collectList()
+                            .map(details -> {
+                                URI uri = UriComponentsBuilder.newInstance()
+                                        .replacePath("/store-api/v1/orders/{orderId}")
+                                        .build(savedOrder.getOrderId());
+                                return ResponseEntity.created(uri)
+                                        .body(orderMapper.toOrderEntityResponse(savedOrder));
+                            });
                 });
     }
 
+    //todo переделать сохранение сущностей, сделать сохранение в ручную и перестать испоьлзовать jpa
     @Transactional(readOnly = true)
     @Override
     public Mono<ResponseEntity<OrderEntityResponse>> getOrderById(Long id) {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
 @Table(schema = "store", name = "order_details")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,10 +17,10 @@ public class OrderDetails {
     @Column(name = "item_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id", nullable = false)
     @JsonBackReference
-    private OrderEntity order;
+    private Long orderId;
+
 
     @Column(name = "dish_id", nullable = false)
     private Long dishId;

@@ -19,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+
 public class ImageServiceImpl implements ImageService {
 
     private final ImageRepository imageRepository;
@@ -27,7 +28,7 @@ public class ImageServiceImpl implements ImageService {
     private String fileDirectory;
 
     @Override
-    @Transactional
+    @Transactional( "transactionManager")
     public Image saveImage(MultipartFile file, String imageUrl) {
         if (file.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot save empty file");
@@ -52,7 +53,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true,transactionManager = "transactionManager")
     public ResponseEntity<Image> getImageById(Long imageId) {
 
         return ResponseEntity.ok(

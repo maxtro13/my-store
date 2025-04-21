@@ -34,8 +34,8 @@ public class DishServiceImpl implements DishService {
     private final ImageService imageService;
     private final YandexDiskService yandexDiskService;
 
-    @Transactional
     @Override
+    @Transactional( "transactionManager")
     public ResponseEntity<?> create(DishRequestDto requestDto) throws Exception {
         if (dishRepository.existsByNameContainingIgnoreCase(requestDto.getName().trim())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Позиция с таким названием уже существует");
@@ -60,7 +60,8 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true,transactionManager = "transactionManager")
+
     public ResponseEntity<DishResponseDto> findDishById(Long dishId) {
         return ResponseEntity.ok(
                 dishMapper.toDto(
@@ -71,8 +72,8 @@ public class DishServiceImpl implements DishService {
         );
     }
 
-    @Transactional
     @Override
+    @Transactional( "transactionManager")
     public ResponseEntity<DishResponseDto> updateDishById(Long dishId, DishRequestDto requestDto) throws Exception {
         Dish dish = dishRepository.findByIdWithImage(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -90,8 +91,8 @@ public class DishServiceImpl implements DishService {
     }
 
 
-    @Transactional
     @Override
+    @Transactional( "transactionManager")
     public void deleteDishById(Long dishId) {
         dishRepository.findByIdWithImage(dishId)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -100,6 +101,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional( "transactionManager")
     public ResponseEntity<List<DishResponseDto>> findAllDishesByCategory(Category category) {
 
         return ResponseEntity.ok(
@@ -110,6 +112,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
+    @Transactional( "transactionManager")
     public ResponseEntity<List<DishResponseDto>> findAll() {
         return ResponseEntity.ok(
                 StreamSupport.stream(dishRepository.findAll().spliterator(), false)

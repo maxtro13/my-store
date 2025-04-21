@@ -30,7 +30,7 @@ public class DishesRestController {
 
         return dishService.findAllDishesByCategory(category);
     }
-
+    //todo ПОСЛЕДНЕЕ ДОДЕЛАТЬ СОХРАНЕНИЕ ЗАКАЗОВ
     @GetMapping("/all")
     public ResponseEntity<List<DishResponseDto>> getAllDishes() {
         return dishService.findAll();

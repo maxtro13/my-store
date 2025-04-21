@@ -1,12 +1,3 @@
-
-alter table store.dish
-    add column image_id bigint;
-
--- alter table store.dish
---     add constraint fk_dish_image
---         foreign key (image_id)
---             references store.images
---             on delete cascade;
 create table if not exists store.images
 (
     id           serial primary key,

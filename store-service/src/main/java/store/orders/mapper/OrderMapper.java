@@ -7,7 +7,6 @@ import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
 import store.orders.entity.OrderStatus;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -30,35 +29,35 @@ public class OrderMapper {
     }
 
     public void updateFullOrderById(OrderEntity order, UpdateOrderRequest request) {
-        order.setDeliveryAddress(request.getDeliveryAddress());
-        order.setOrderStatus(request.getOrderStatus());
-
-        Map<Long, OrderDetails> existingDetails = order.getOrderDetails()
-                .stream()
-                .collect(Collectors.toMap(OrderDetails::getDishId, Function.identity()));
-
-        List<OrderDetails> newDetails = request.getOrderDetails()
-                .stream()
-                .map(detail -> {
-                    OrderDetails orderDetail = existingDetails.get(detail.getDishId());
-                    if (orderDetail != null) {
-                        orderDetail.setQuantity(detail.getQuantity());
-                        orderDetail.setFixedPrice(detail.getPrice());
-                        orderDetail.setName(detail.getName());
-                        return orderDetail;
-                    } else {
-                        return OrderDetails.builder()
-                                .dishId(detail.getDishId())
-                                .quantity(detail.getQuantity())
-                                .fixedPrice(detail.getPrice())
-                                .name(detail.getName())
-                                .order(order)
-                                .build();
-                    }
-                })
-                .collect(Collectors.toList());
-
-        order.getOrderDetails().retainAll(newDetails);
-        order.getOrderDetails().addAll(newDetails);
+//        order.setDeliveryAddress(request.getDeliveryAddress());
+//        order.setOrderStatus(request.getOrderStatus());
+//
+//        Map<Long, OrderDetails> existingDetails = order.getOrderDetails()
+//                .stream()
+//                .collect(Collectors.toMap(OrderDetails::getDishId, Function.identity()));
+//
+//        List<OrderDetails> newDetails = request.getOrderDetails()
+//                .stream()
+//                .map(detail -> {
+//                    OrderDetails orderDetail = existingDetails.get(detail.getDishId());
+//                    if (orderDetail != null) {
+//                        orderDetail.setQuantity(detail.getQuantity());
+//                        orderDetail.setFixedPrice(detail.getPrice());
+//                        orderDetail.setName(detail.getName());
+//                        return orderDetail;
+//                    } else {
+//                        return OrderDetails.builder()
+//                                .dishId(detail.getDishId())
+//                                .quantity(detail.getQuantity())
+//                                .fixedPrice(detail.getPrice())
+//                                .name(detail.getName())
+//                                .orderId(order.getOrderId())
+//                                .build();
+//                    }
+//                })
+//                .collect(Collectors.toList());
+//
+//        order.getOrderDetails().retainAll(newDetails);
+//        order.getOrderDetails().addAll(newDetails);
     }
 }
