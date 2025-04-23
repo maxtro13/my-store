@@ -7,11 +7,6 @@ import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
 import store.orders.entity.OrderStatus;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 @Component
 public class OrderMapper {
 
@@ -29,22 +24,24 @@ public class OrderMapper {
     }
 
     public void updateFullOrderById(OrderEntity order, UpdateOrderRequest request) {
-//        order.setDeliveryAddress(request.getDeliveryAddress());
-//        order.setOrderStatus(request.getOrderStatus());
-//
-//        Map<Long, OrderDetails> existingDetails = order.getOrderDetails()
-//                .stream()
-//                .collect(Collectors.toMap(OrderDetails::getDishId, Function.identity()));
+        order.setDeliveryAddress(request.getDeliveryAddress());
+        order.setOrderStatus(request.getOrderStatus());
+        order.setTotalPrice(request.getOrderDetails().stream()
+                .mapToDouble(orderDetails1 ->
+                        orderDetails1.getPrice() * orderDetails1.getQuantity())
+                .sum());
+
+
 //
 //        List<OrderDetails> newDetails = request.getOrderDetails()
 //                .stream()
 //                .map(detail -> {
-//                    OrderDetails orderDetail = existingDetails.get(detail.getDishId());
-//                    if (orderDetail != null) {
-//                        orderDetail.setQuantity(detail.getQuantity());
-//                        orderDetail.setFixedPrice(detail.getPrice());
-//                        orderDetail.setName(detail.getName());
-//                        return orderDetail;
+//                    orderDetails = orderDetails.get(detail.getDishId());
+//                    if (orderDetails != null) {
+//                        orderDetails.setQuantity(detail.getQuantity());
+//                        orderDetails.setFixedPrice(detail.getPrice());
+//                        orderDetails.setName(detail.getName());
+//                        return orderDetails;
 //                    } else {
 //                        return OrderDetails.builder()
 //                                .dishId(detail.getDishId())
@@ -56,8 +53,10 @@ public class OrderMapper {
 //                    }
 //                })
 //                .collect(Collectors.toList());
-//
-//        order.getOrderDetails().retainAll(newDetails);
-//        order.getOrderDetails().addAll(newDetails);
+
+    }
+//todo Доделать обновление заказа
+    public void updateOrderDetails(OrderDetails orderDetails, UpdateOrderRequest request) {
+
     }
 }

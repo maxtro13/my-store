@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(transactionManager = "connectionFactoryTransactionManager")
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -40,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    @Transactional(transactionManager = "connectionFactoryTransactionManager")
     public Mono<ResponseEntity<OrderEntityResponse>> createOrder(CreateOrderRequest orderRequest) {
         Set<Long> ids = orderRequest.getOrderDetails()
                 .stream()
@@ -87,10 +87,11 @@ public class OrderServiceImpl implements OrderService {
                 });
     }
 
-    //todo переделать сохранение сущностей, сделать сохранение в ручную и перестать испоьлзовать jpa
-    @Transactional(readOnly = true)
+
     @Override
+    @Transactional(transactionManager = "connectionFactoryTransactionManager", readOnly = true)
     public Mono<ResponseEntity<OrderEntityResponse>> getOrderById(Long id) {
+
         return orderRepository.findById(id)
                 .map(orderMapper::toOrderEntityResponse)
                 .map(ResponseEntity::ok)
@@ -100,8 +101,8 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    @Transactional
     public Mono<ResponseEntity<OrderEntityResponse>> updateOrderStatusById(OrderStatus orderStatus, Long id) {
+
         return orderRepository.findById(id)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Заказ с ID " + id + " не найден")))
@@ -113,7 +114,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
     public Mono<ResponseEntity<OrderEntityResponse>> updateFullOrderById(Long id, UpdateOrderRequest request) {
         return orderRepository.findById(id)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -122,11 +122,11 @@ public class OrderServiceImpl implements OrderService {
                     orderMapper.updateFullOrderById(orderEntity, request);
                     return orderRepository.save(orderEntity)
                             .map(savedOrder -> ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder)));
-                });
+                })
+                ;
     }
 
     @Override
-    @Transactional
     public Mono<ResponseEntity<Void>> deleteOrderById(Long id) {
         return orderRepository.existsById(id)
                 .flatMap(exist -> {
