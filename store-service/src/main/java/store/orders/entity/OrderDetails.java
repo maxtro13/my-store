@@ -1,10 +1,13 @@
 package store.orders.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 
-@Table(schema = "store", name = "order_details")
+@org.springframework.data.relational.core.mapping.Table("store.order_details")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -14,24 +17,23 @@ public class OrderDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "item_id")
+    @Column("item_id")
     private Long id;
 
-    @JoinColumn(name = "order_id", nullable = false)
+    @Column("order_id")
     @JsonBackReference
     private Long orderId;
 
-
-    @Column(name = "dish_id", nullable = false)
+    @Column("dish_id")
     private Long dishId;
 
-    @Column(nullable = false)
+    @Column("quantity")
     private Integer quantity;
 
-    @Column(name = "fixed_price")
+    @Column("fixed_price")
     private Double fixedPrice;
 
-    @Column(name = "name")
+    @Column("name")
     private String name;
 
 }

@@ -1,30 +1,33 @@
 package store.orders.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table("orders")
+@Table("store.orders")
 @Builder(toBuilder = true)
 public class OrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column("id")
     private Long orderId;
 
-    @Column(name = "total_price")
+    @Column("total_price")
     private Double totalPrice;
 
-    @Column(name = "order_status")
+    @Column("order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.PENDING;
 
-    @Column(name = "delivery_address", length = 500)
+    @Column("delivery_address")
     private String deliveryAddress;
 
 }
