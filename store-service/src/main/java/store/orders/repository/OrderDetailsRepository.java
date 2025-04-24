@@ -7,5 +7,7 @@ import store.orders.entity.OrderDetails;
 
 @Repository
 public interface OrderDetailsRepository extends R2dbcRepository<OrderDetails, Long> {
-    Flux<OrderDetails> findByOrderId(Long orderId);
+    Flux<OrderDetails> findAllByOrderId(Long orderId);
+
+    Flux<Void> deleteAllByOrderId(Long orderId);
 }

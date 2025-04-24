@@ -121,9 +121,17 @@ public class OrderServiceImpl implements OrderService {
                 .flatMap(orderEntity -> {
                     orderMapper.updateFullOrderById(orderEntity, request);
                     return orderRepository.save(orderEntity)
-                            .map(savedOrder -> ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder)));
-                })
-                ;
+                            .flatMap(savedOrder -> {
+                                return this.orderDetailsRepository.deleteAllByOrderId(savedOrder.getOrderId())
+                                        .then(Mono.defer(() -> {
+                                            return this.orderDetailsRepository.saveAll(orderMapper.updateOrderDetails(request, id))
+                                                    .collectList()
+                                                    .map(details -> {
+                                                        return ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder));
+                                                    });
+                                        }));
+                            });
+                });
     }
 
     @Override

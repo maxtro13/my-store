@@ -7,6 +7,9 @@ import store.orders.entity.OrderDetails;
 import store.orders.entity.OrderEntity;
 import store.orders.entity.OrderStatus;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class OrderMapper {
 
@@ -30,33 +33,20 @@ public class OrderMapper {
                 .mapToDouble(orderDetails1 ->
                         orderDetails1.getPrice() * orderDetails1.getQuantity())
                 .sum());
-
-
-//
-//        List<OrderDetails> newDetails = request.getOrderDetails()
-//                .stream()
-//                .map(detail -> {
-//                    orderDetails = orderDetails.get(detail.getDishId());
-//                    if (orderDetails != null) {
-//                        orderDetails.setQuantity(detail.getQuantity());
-//                        orderDetails.setFixedPrice(detail.getPrice());
-//                        orderDetails.setName(detail.getName());
-//                        return orderDetails;
-//                    } else {
-//                        return OrderDetails.builder()
-//                                .dishId(detail.getDishId())
-//                                .quantity(detail.getQuantity())
-//                                .fixedPrice(detail.getPrice())
-//                                .name(detail.getName())
-//                                .orderId(order.getOrderId())
-//                                .build();
-//                    }
-//                })
-//                .collect(Collectors.toList());
-
     }
-//todo Доделать обновление заказа
-    public void updateOrderDetails(OrderDetails orderDetails, UpdateOrderRequest request) {
 
+    public List<OrderDetails> updateOrderDetails(UpdateOrderRequest request, Long orderId) {
+        return request.getOrderDetails()
+                .stream()
+                .map(orderRequest -> {
+                    OrderDetails orderDetails = new OrderDetails();
+                    orderDetails.setOrderId(orderId);
+                    orderDetails.setName(orderRequest.getName());
+                    orderDetails.setQuantity(orderRequest.getQuantity());
+                    orderDetails.setFixedPrice(orderRequest.getPrice());
+                    orderDetails.setDishId(orderRequest.getDishId());
+                    return orderDetails;
+                })
+                .collect(Collectors.toList());
     }
 }
