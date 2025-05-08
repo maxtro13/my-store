@@ -121,16 +121,17 @@ public class OrderServiceImpl implements OrderService {
                 .flatMap(orderEntity -> {
                     orderMapper.updateFullOrderById(orderEntity, request);
                     return orderRepository.save(orderEntity)
-                            .flatMap(savedOrder -> {
-                                return this.orderDetailsRepository.deleteAllByOrderId(savedOrder.getOrderId())
-                                        .then(Mono.defer(() -> {
-                                            return this.orderDetailsRepository.saveAll(orderMapper.updateOrderDetails(request, id))
-                                                    .collectList()
-                                                    .map(details -> {
-                                                        return ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder));
-                                                    });
-                                        }));
-                            });
+                            .flatMap(savedOrder ->
+                                    this.orderDetailsRepository.deleteAllByOrderId(savedOrder.getOrderId())
+                                            .then(Mono.defer(() ->
+                                                            this.orderDetailsRepository.saveAll(orderMapper.updateOrderDetails(request, id))
+                                                                    .collectList()
+                                                                    .map(details ->
+                                                                            ResponseEntity.ok(orderMapper.toOrderEntityResponse(savedOrder))
+                                                                    )
+                                                    )
+                                            )
+                            );
                 });
     }
 
@@ -143,7 +144,8 @@ public class OrderServiceImpl implements OrderService {
                                 "Заказ с ID " + id + " не найден")));
                     }
                     return this.orderRepository.deleteById(id)
-                            .then(Mono.just(ResponseEntity.noContent().build()));
+                            .then(Mono.defer(() -> this.orderDetailsRepository.deleteAllByOrderId(id)))
+                            .thenReturn(ResponseEntity.noContent().build());
                 });
     }
 }

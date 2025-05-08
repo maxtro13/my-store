@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   r2dbc:
     url: r2dbc:pool:postgres://localhost:5434/dishes
@@ -19,8 +19,10 @@ spring:
       location: D:\IdeadProjects\OCTOBER\my-store\store-view\src\main\resources\static\images
 logging:
   level:
-    sql: trace
-    web: trace
+    sql: debug
+    web: debug
+    org.springframework.data.r2dbc: trace
+    io.r2dbc.postgresql: trace
 server:
   port: 8081
 #yandex:
