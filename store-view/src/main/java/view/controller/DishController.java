@@ -9,6 +9,7 @@ import view.client.StoreRestClient;
 import view.dto.DishDtoRequest;
 import view.entity.Dish;
 
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 
 @Controller
@@ -17,7 +18,6 @@ import java.util.NoSuchElementException;
 public class DishController {
 
     private final StoreRestClient storeRestClient;
-
     @ModelAttribute("dish")
     public Dish dish(@PathVariable("dishId") Long dishId, Model model) {
         Dish dish = this.storeRestClient.findDishById(dishId)
