@@ -10,11 +10,8 @@
 
 <body>
 <div id="order-summary" class="order-summary">
-    <!-- Здесь будут добавляться товары -->
 </div>
-<button id="create-order" class="btn btn-primary">Создать заказ</button>
-
-<h1>Роллы</h1>
+<h1 class="category-title">Роллы</h1>
 <div class="container">
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 mb-4" data-th-each="dish : ${rolls}">
@@ -62,7 +59,7 @@
         </div>
     </div>
 </div>
-<h1>Супы</h1>
+<h1 class="category-title">Супы</h1>
 
 <div class="container">
     <div class="row">
@@ -120,7 +117,7 @@
     </div>
 </div>
 
-<h1>Дессерты</h1>
+<h1 class="category-title">Дессерты</h1>
 <div class="container">
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 mb-4"
@@ -177,7 +174,7 @@
     </div>
 </div>
 
-<h1>Пицца</h1>
+<h1 class="category-title">Пицца</h1>
 <div class="container">
     <div class="row">
         <div class="col-12 col-lg-4 col-md-6 mb-4"
@@ -277,16 +274,19 @@
         </div>
     </div>
 </div>
-<div class="cart-icon" id="cart-icon">
-    <span id="cart-count">0</span>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"></circle>
-        <circle cx="20" cy="21" r="1"></circle>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-    </svg>
+<div class="header-buttons">
+    <a href="/about.html" class="btn btn-info about-btn">О нас</a>
+    <div class="cart-icon" id="cart-icon">
+        <span id="cart-count">0</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+    </div>
 </div>
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

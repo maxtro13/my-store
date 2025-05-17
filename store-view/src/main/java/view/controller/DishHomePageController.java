@@ -46,4 +46,9 @@ public class DishHomePageController {
         return "store/dishes/main";
     }
 
+    @GetMapping("/about.html")
+    public String about() {
+        return "store/dishes/about";
+
+    }
 }
